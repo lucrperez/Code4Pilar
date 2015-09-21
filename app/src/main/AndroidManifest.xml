@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme">
 
         <provider
-            android:name=".DatabaseProvider"
+            android:name=".provider.DatabaseProvider"
             android:authorities="${packageName}.provider"
             android:exported="false" />
     </application>

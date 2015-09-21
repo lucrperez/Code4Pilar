@@ -1,8 +1,9 @@
-package yesteam.code4pilar2015;
+package yesteam.code4pilar2015.provider;
 
 import android.net.Uri;
 
 import novoda.lib.sqliteprovider.provider.SQLiteContentProviderImpl;
+import yesteam.code4pilar2015.BuildConfig;
 
 public class DatabaseProvider extends SQLiteContentProviderImpl {
 
