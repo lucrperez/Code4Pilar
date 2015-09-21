@@ -2,7 +2,8 @@ CREATE TABLE 'categories' (
     _id INTEGER PRIMARY KEY AUTOINCREMENT,
     code INTEGER,
     title TEXT,
-    image TEXT);
+    image TEXT,
+    UNIQUE (code) ON CONFLICT REPLACE);
 
 CREATE TABLE 'places' (
     _id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,7 +16,8 @@ CREATE TABLE 'places' (
     web TEXT,
     latitude REAL,
     longitude REAL,
-    accessibility TEXT);
+    accessibility TEXT,
+    UNIQUE (code) ON CONFLICT REPLACE);
 
 CREATE TABLE 'events' (
     _id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,4 +31,5 @@ CREATE TABLE 'events' (
     category_code INTEGER,
     price TEXT,
     web TEXT,
-    image TEXT);
+    image TEXT,
+    UNIQUE (code) ON CONFLICT REPLACE);
