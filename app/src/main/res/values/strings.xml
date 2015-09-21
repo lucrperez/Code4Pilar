@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Code4Pilar2015</string>
+    <string name="row_event_image_description">imagen evento</string>
 </resources>
