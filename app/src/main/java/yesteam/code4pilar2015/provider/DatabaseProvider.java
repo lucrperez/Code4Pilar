@@ -7,7 +7,7 @@ import yesteam.code4pilar2015.BuildConfig;
 
 public class DatabaseProvider extends SQLiteContentProviderImpl {
 
-    public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
+    public static final String AUTHORITY = "content://" + BuildConfig.APPLICATION_ID + ".provider";
 
     public static class CategoriesTable {
         public static final String TABLE_NAME = "categories";
@@ -29,8 +29,7 @@ public class DatabaseProvider extends SQLiteContentProviderImpl {
         public static final String COLUMN_ADDRESS = "address";
         public static final String COLUMN_CP = "cp";
         public static final String COLUMN_TELEPHONE = "telephone";
-        public static final String COLUMN_EMAEIL = "email";
-        public static final String COLUMN_WEB = "web";
+        public static final String COLUMN_EMAIL = "email";
         public static final String COLUMN_LATITUDE = "latitude";
         public static final String COLUMN_LONGITUDE = "longitude";
         public static final String COLUMN_ACCESSIBILITY = "accessibility";
