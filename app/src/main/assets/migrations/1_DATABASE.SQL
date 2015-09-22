@@ -13,7 +13,6 @@ CREATE TABLE 'places' (
     cp TEXT,
     telephone TEXT,
     email TEXT,
-    web TEXT,
     latitude REAL,
     longitude REAL,
     accessibility TEXT,
