@@ -35,3 +35,6 @@ proguard/
 .DS_Store
 /build
 /captures
+
+# Discarding .idea folder
+.idea/
