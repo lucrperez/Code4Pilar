@@ -14,6 +14,10 @@
             android:name=".provider.DatabaseProvider"
             android:authorities="${packageName}.provider"
             android:exported="false" />
+
+        <service android:name=".services.DownloadEvents" />
+        <service android:name=".services.DownloadCategories" />
+
     </application>
 
 </manifest>
