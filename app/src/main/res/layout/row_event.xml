@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="130dp"
-    android:layout_margin="7dp"
+    android:layout_marginBottom="7dp"
+    android:layout_marginTop="7dp"
+    android:background="@color/white"
     android:orientation="horizontal">
 
     <FrameLayout
@@ -21,10 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="#77000000"
+            android:background="@color/translucent"
             android:gravity="center_horizontal"
             android:padding="5dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/white" />
     </FrameLayout>
 
     <LinearLayout
@@ -41,6 +43,7 @@
             android:lines="1"
             android:maxLines="1"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -53,15 +56,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/row_event_place"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
                 android:layout_weight="0.5"
-                android:background="#FFF"
+                android:background="@color/gray"
                 android:gravity="center_horizontal"
                 android:padding="3dp" />
 
@@ -69,9 +74,10 @@
                 android:id="@+id/row_event_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
                 android:layout_weight="0.5"
-                android:background="#FFF"
+                android:background="@color/gray"
                 android:gravity="center_horizontal"
                 android:padding="3dp" />
         </LinearLayout>

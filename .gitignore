@@ -37,5 +37,4 @@ proguard/
 /captures
 
 # Discarding .idea folder
-/.idea/*
-.idea/*
+.idea

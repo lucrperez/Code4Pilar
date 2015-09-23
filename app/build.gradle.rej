@@ -1,0 +1,7 @@
+diff a/app/build.gradle b/app/build.gradle	(rejected hunks)
+@@ -24,4 +24,5 @@
+     compile 'com.android.support:appcompat-v7:23.0.0'
+     compile 'com.novoda:sqlite-provider:1.2.0'
+     compile 'com.squareup.okhttp:okhttp:2.5.0'
++    compile 'com.squareup.picasso:picasso:2.5.2'
+ }
