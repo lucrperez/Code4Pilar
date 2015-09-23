@@ -2,5 +2,14 @@
 
     <string name="app_name">Fiestas del Pilar 2015</string>
     <string name="row_event_image_description">imagen evento</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="main_ofrenda">Ofrendas</string>
+    <string name="main_events">Eventos</string>
+    <string name="main_locations">Localizaciones</string>
+    <string name="main_artists">Artistas</string>
 
 </resources>

@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="yesteam.code4pilar2015">
+    package="yesteam.code4pilar2015" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -8,8 +9,7 @@
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme" >
         <provider
             android:name=".provider.DatabaseProvider"
             android:authorities="${packageName}.provider"
@@ -19,6 +19,15 @@
         <service android:name=".services.DownloadCategories" />
 
         <activity android:name=".activities.EventsListActivity" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
