@@ -81,7 +81,7 @@ public class DownloadEvents extends Service {
                         JSONObject price = event.getJSONArray("price").getJSONObject(0);
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, price.getString("hasCurrencyValue") + " " + price.getString("hasCurrency"));
                     } else if (!event.isNull("precioEntrada")) {
-                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, event.getString("precioEntrada"));
+                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, stripHtml(event.getString("precioEntrada")));
                     }
 
                     if (!event.isNull("temas")) {
