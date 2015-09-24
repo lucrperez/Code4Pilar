@@ -24,8 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/translucent"
+            android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:lines="1"
+            android:maxLines="1"
             android:padding="5dp"
+            android:singleLine="true"
             android:textColor="@color/white" />
     </FrameLayout>
 
@@ -67,8 +71,12 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0.5"
                 android:background="@color/gray"
+                android:ellipsize="end"
                 android:gravity="center_horizontal"
-                android:padding="3dp" />
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="3dp"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/row_event_price"
@@ -78,8 +86,12 @@
                 android:layout_marginStart="2dp"
                 android:layout_weight="0.5"
                 android:background="@color/gray"
+                android:ellipsize="end"
                 android:gravity="center_horizontal"
-                android:padding="3dp" />
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="3dp"
+                android:singleLine="true" />
         </LinearLayout>
     </LinearLayout>
 
