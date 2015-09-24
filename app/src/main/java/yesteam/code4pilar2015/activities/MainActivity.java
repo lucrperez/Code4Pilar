@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import yesteam.code4pilar2015.R;
 import yesteam.code4pilar2015.adapters.EventsAdapter;
 import yesteam.code4pilar2015.services.DownloadCategories;
-import yesteam.code4pilar2015.services.DownloadEvents;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchUpdate() {
-        startService(new Intent(MainActivity.this, DownloadEvents.class));
         startService(new Intent(MainActivity.this, DownloadCategories.class));
     }
 /*
