@@ -36,14 +36,14 @@ public class DownloadEvents extends Service {
 
     private class AsyncDownload extends AsyncTask<Void, Void, Void> {
 
-        private static final String URL_CATEGORIES = "http://www.zaragoza.es/api/recurso/cultura-ocio/evento-zaragoza.json?srsname=wgs84&sort=diasParaTerminar%20asc&q=programa==Fiestas%20del%20Pilar";
+        private static final String URL_EVENTS = "http://www.zaragoza.es/api/recurso/cultura-ocio/evento-zaragoza.json?srsname=wgs84&sort=startDate%20asc&q=programa==Fiestas%20del%20Pilar";
 
         @Override
         protected Void doInBackground(Void... params) {
             String strJson = null;
             try {
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url(URL_CATEGORIES).build();
+                Request request = new Request.Builder().url(URL_EVENTS).build();
                 Response response = client.newCall(request).execute();
                 strJson = response.body().string();
 
@@ -80,6 +80,7 @@ public class DownloadEvents extends Service {
                     if (!event.isNull("price")) {
                         JSONObject price = event.getJSONArray("price").getJSONObject(0);
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, price.getString("hasCurrencyValue") + " " + price.getString("hasCurrency"));
+
                     } else if (!event.isNull("precioEntrada")) {
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, stripHtml(event.getString("precioEntrada")));
                     }
@@ -92,10 +93,11 @@ public class DownloadEvents extends Service {
                     if (!event.isNull("subEvent")) {
                         JSONObject subEvent = event.getJSONArray("subEvent").getJSONObject(0);
 
-                        if (!event.isNull("horaInicio")) {
+                        if (!subEvent.isNull("horaInicio")) {
                             eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_HOUR, subEvent.getString("horaInicio"));
-                        } else if (!event.isNull("horario")) {
-                            eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_HOUR, subEvent.getString("horario"));
+
+                        } else if (!subEvent.isNull("horario")) {
+                            eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_HOUR, stripHtml(subEvent.getString("horario")));
                         }
 
                         JSONObject place = subEvent.getJSONObject("lugar");
@@ -104,23 +106,23 @@ public class DownloadEvents extends Service {
                         ContentValues placeValues = new ContentValues();
                         placeValues.put(DatabaseProvider.PlacesTable.COLUMN_CODE, place.getString("id"));
                         placeValues.put(DatabaseProvider.PlacesTable.COLUMN_TITLE, place.getString("title"));
-                        if (!event.isNull("direccion")) {
+                        if (!place.isNull("direccion")) {
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_ADDRESS, place.getString("direccion"));
                         }
-                        if (!event.isNull("cp")) {
+                        if (!place.isNull("cp")) {
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_CP, place.getString("cp"));
                         }
-                        if (!event.isNull("telefono")) {
+                        if (!place.isNull("telefono")) {
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_TELEPHONE, place.getString("telefono"));
                         }
-                        if (!event.isNull("mail")) {
+                        if (!place.isNull("mail")) {
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_EMAIL, place.getString("mail"));
                         }
-                        if (!event.isNull("accesibilidad")) {
+                        if (!place.isNull("accesibilidad")) {
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_ACCESSIBILITY, stripHtml(place.getString("accesibilidad")));
                         }
 
-                        if (!event.isNull("geometry")) {
+                        if (!place.isNull("geometry")) {
                             JSONArray coordinates = place.getJSONObject("geometry").getJSONArray("coordinates");
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_LATITUDE, coordinates.getString(1));
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE, coordinates.getString(0));
