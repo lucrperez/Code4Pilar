@@ -15,5 +15,6 @@
     <string name="main_events">Eventos</string>
     <string name="main_locations">Localizaciones</string>
     <string name="main_artists">Artistas</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>
