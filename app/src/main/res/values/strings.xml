@@ -17,5 +17,6 @@
     <string name="main_artists">Artistas</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="price_free">Gratis</string>
+    <string name="tab_all_title">Todos</string>
 
 </resources>
