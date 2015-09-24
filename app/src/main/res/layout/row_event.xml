@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/row_event_image_description"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder" />
 
         <TextView
             android:id="@+id/row_event_date"
@@ -24,11 +25,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/translucent"
-            android:ellipsize="end"
+            android:ellipsize="marquee"
             android:gravity="center_horizontal"
             android:lines="1"
+            android:marqueeRepeatLimit="marquee_forever"
             android:maxLines="1"
             android:padding="5dp"
+            android:scrollHorizontally="true"
             android:singleLine="true"
             android:textColor="@color/white" />
     </FrameLayout>
@@ -71,11 +74,13 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="0.5"
                 android:background="@color/gray"
-                android:ellipsize="end"
+                android:ellipsize="marquee"
                 android:gravity="center_horizontal"
                 android:lines="1"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="1"
                 android:padding="3dp"
+                android:scrollHorizontally="true"
                 android:singleLine="true" />
 
             <TextView
@@ -86,11 +91,13 @@
                 android:layout_marginStart="2dp"
                 android:layout_weight="0.5"
                 android:background="@color/gray"
-                android:ellipsize="end"
+                android:ellipsize="marquee"
                 android:gravity="center_horizontal"
                 android:lines="1"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="1"
                 android:padding="3dp"
+                android:scrollHorizontally="true"
                 android:singleLine="true" />
         </LinearLayout>
     </LinearLayout>
