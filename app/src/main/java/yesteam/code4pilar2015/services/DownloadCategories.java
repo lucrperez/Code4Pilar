@@ -66,7 +66,7 @@ public class DownloadCategories extends Service {
                     getContentResolver().insert(DatabaseProvider.CategoriesTable.URI, values);
                 }
 
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
 

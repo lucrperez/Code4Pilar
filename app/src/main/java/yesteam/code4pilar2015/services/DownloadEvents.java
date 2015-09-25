@@ -134,7 +134,7 @@ public class DownloadEvents extends Service {
                     getContentResolver().insert(DatabaseProvider.EventsTable.URI, eventValues);
                 }
 
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
 
