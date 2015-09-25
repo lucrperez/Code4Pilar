@@ -10,11 +10,12 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import yesteam.code4pilar2015.R;
 import yesteam.code4pilar2015.adapters.EventsAdapter;
+import yesteam.code4pilar2015.helpers.EmptyRecyclerView;
 import yesteam.code4pilar2015.provider.DatabaseProvider;
 import yesteam.code4pilar2015.services.DownloadEvents;
 
@@ -35,8 +36,10 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_all_title));
         tabLayout.setOnTabSelectedListener(this);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        TextView txtEmpty = (TextView) findViewById(R.id.empty);
+        EmptyRecyclerView mRecyclerView = (EmptyRecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setEmptyView(txtEmpty);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);

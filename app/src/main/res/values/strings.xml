@@ -18,5 +18,7 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="price_free">Gratis</string>
     <string name="tab_all_title">Todos</string>
+    <string name="empty">We\'re loading all the data related to the Fiestas del Pilar events.\n\n
+    This is done only once and after this point you can disconnect WiFi if you wish.</string>
 
 </resources>
