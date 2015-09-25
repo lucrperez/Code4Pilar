@@ -45,6 +45,7 @@ public class DatabaseProvider extends SQLiteContentProviderImpl {
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_PLACE_CODE = "place_code";
+        public static final String COLUMN_PLACE_NAME = "place_name";
         public static final String COLUMN_START_DATE = "start_date";
         public static final String COLUMN_END_DATE = "end_date";
         public static final String COLUMN_START_HOUR = "start_hour";
