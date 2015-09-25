@@ -1,5 +1,4 @@
 package yesteam.code4pilar2015.helpers;
-
 /*
  * The MIT License (MIT)
  *
@@ -38,7 +37,7 @@ import android.widget.Filterable;
  * support.
  * <p/>
  * Child classes only need to implement {@link #onCreateViewHolder(android.view.ViewGroup, int)} and
- * {@link #onBindViewHolderCursor(android.support.v7.widget.RecyclerView.ViewHolder, Cursor)}.
+ * {@link #onBindViewHolderCursor(android.support.v7.widget.RecyclerView.ViewHolder, android.database.Cursor)}.
  * <p/>
  * This class does not implement deprecated fields and methods from CursorAdapter! Incidentally,
  * only {@link android.widget.CursorAdapter#FLAG_REGISTER_CONTENT_OBSERVER} is available, so the
@@ -47,11 +46,11 @@ import android.widget.Filterable;
  * @param <VH> {@inheritDoc}
  * @see android.support.v7.widget.RecyclerView.Adapter
  * @see android.widget.CursorAdapter
- * @see Filterable
+ * @see android.widget.Filterable
  * @see fr.shywim.tools.adapter.CursorFilter.CursorFilterClient
  */
 public abstract class CursorRecyclerAdapter<VH
-        extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
+        extends android.support.v7.widget.RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
         implements Filterable, CursorFilter.CursorFilterClient {
     private boolean mDataValid;
     private int mRowIDColumn;
@@ -70,20 +69,12 @@ public abstract class CursorRecyclerAdapter<VH
         mCursor = c;
         mDataValid = cursorPresent;
         mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
-
-        mChangeObserver = new ChangeObserver();
-        mDataSetObserver = new MyDataSetObserver();
-
-        if (cursorPresent) {
-            if (mChangeObserver != null) c.registerContentObserver(mChangeObserver);
-            if (mDataSetObserver != null) c.registerDataSetObserver(mDataSetObserver);
-        }
     }
 
     /**
      * This method will move the Cursor to the correct position and call
      * {@link #onBindViewHolderCursor(android.support.v7.widget.RecyclerView.ViewHolder,
-     * Cursor)}.
+     * android.database.Cursor)}.
      *
      * @param holder {@inheritDoc}
      * @param i      {@inheritDoc}
@@ -101,7 +92,7 @@ public abstract class CursorRecyclerAdapter<VH
 
     /**
      * See {@link android.widget.CursorAdapter#bindView(android.view.View, android.content.Context,
-     * Cursor)},
+     * android.database.Cursor)},
      * {@link #onBindViewHolder(android.support.v7.widget.RecyclerView.ViewHolder, int)}
      *
      * @param holder View holder.
@@ -167,14 +158,8 @@ public abstract class CursorRecyclerAdapter<VH
             return null;
         }
         Cursor oldCursor = mCursor;
-        if (oldCursor != null) {
-            if (mChangeObserver != null) oldCursor.unregisterContentObserver(mChangeObserver);
-            if (mDataSetObserver != null) oldCursor.unregisterDataSetObserver(mDataSetObserver);
-        }
         mCursor = newCursor;
         if (newCursor != null) {
-            if (mChangeObserver != null) newCursor.registerContentObserver(mChangeObserver);
-            if (mDataSetObserver != null) newCursor.registerDataSetObserver(mDataSetObserver);
             mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
             mDataValid = true;
             // notify the observers about the new cursor
@@ -207,7 +192,7 @@ public abstract class CursorRecyclerAdapter<VH
      * by the filter attached to this adapter.
      * <p/>
      * The query is provided by a
-     * {@link FilterQueryProvider}.
+     * {@link android.widget.FilterQueryProvider}.
      * If no provider is specified, the current cursor is not filtered and returned.
      * <p/>
      * After this method returns the resulting cursor is passed to {@link #changeCursor(Cursor)}
@@ -223,7 +208,7 @@ public abstract class CursorRecyclerAdapter<VH
      * @return a Cursor representing the results of the new query
      * @see #getFilter()
      * @see #getFilterQueryProvider()
-     * @see #setFilterQueryProvider(FilterQueryProvider)
+     * @see #setFilterQueryProvider(android.widget.FilterQueryProvider)
      */
     public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
         if (mFilterQueryProvider != null) {
@@ -245,7 +230,7 @@ public abstract class CursorRecyclerAdapter<VH
      * provider is null, no filtering occurs.
      *
      * @return the current filter query provider or null if it does not exist
-     * @see #setFilterQueryProvider(FilterQueryProvider)
+     * @see #setFilterQueryProvider(android.widget.FilterQueryProvider)
      * @see #runQueryOnBackgroundThread(CharSequence)
      */
     public FilterQueryProvider getFilterQueryProvider() {
@@ -255,7 +240,7 @@ public abstract class CursorRecyclerAdapter<VH
     /**
      * Sets the query filter provider used to filter the current Cursor.
      * The provider's
-     * {@link FilterQueryProvider#runQuery(CharSequence)}
+     * {@link android.widget.FilterQueryProvider#runQuery(CharSequence)}
      * method is invoked when filtering is requested by a client of
      * this adapter.
      *
