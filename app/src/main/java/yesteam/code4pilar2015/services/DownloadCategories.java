@@ -35,7 +35,7 @@ public class DownloadCategories extends Service {
 
     private class AsyncDownload extends AsyncTask<Void, Void, Void> {
 
-        private static final String URL_CATEGORIES = "http://www.zaragoza.es/api/recurso/cultura-ocio/tema/evento-zaragoza.json";
+        private static final String URL_CATEGORIES = "http://www.zaragoza.es/api/recurso/cultura-ocio/evento-zaragoza.json?fl=temas&rows=1000&q=programa%3D%3DFiestas%20del%20Pilar";
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -54,7 +54,7 @@ public class DownloadCategories extends Service {
                 JSONArray categories = new JSONObject(strJson).getJSONArray("result");
 
                 for (int i = 0; i < categories.length(); i++) {
-                    JSONObject category = categories.getJSONObject(i);
+                    JSONObject category = categories.getJSONObject(i).getJSONArray("temas").getJSONObject(0);
 
                     ContentValues values = new ContentValues();
                     values.put(DatabaseProvider.CategoriesTable.COLUMN_CODE, category.getInt("id"));
