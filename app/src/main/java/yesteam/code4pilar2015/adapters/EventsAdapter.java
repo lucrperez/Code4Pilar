@@ -75,7 +75,7 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
     public void onBindViewHolderCursor(ViewHolder holder, Cursor cursor) {
         holder.title.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE)));
         holder.description.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_DESCRIPTION)));
-        holder.place.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PLACE_CODE)));
+        holder.place.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PLACE_NAME)));
 
         if (!TextUtils.isEmpty(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PRICE)))) {
             holder.price.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PRICE)));
@@ -113,7 +113,7 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
         String photo = "http:" + cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_IMAGE));
         Picasso.with(context).load(photo).placeholder(R.drawable.placeholder).noFade().into(holder.image);
 
-
+        
         holder.date.setSelected(true);
         holder.place.setSelected(true);
         holder.price.setSelected(true);

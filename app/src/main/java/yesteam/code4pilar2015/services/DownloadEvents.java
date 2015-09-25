@@ -106,6 +106,7 @@ public class DownloadEvents extends Service {
 
                         JSONObject place = subEvent.getJSONObject("lugar");
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_PLACE_CODE, place.getString("id"));
+                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_PLACE_NAME, place.getString("title"));
 
                         ContentValues placeValues = new ContentValues();
                         placeValues.put(DatabaseProvider.PlacesTable.COLUMN_CODE, place.getString("id"));
