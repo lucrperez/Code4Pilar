@@ -44,10 +44,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         adapter = new EventsAdapter(EventsListActivity.this, null, this);
         mRecyclerView.setAdapter(adapter);
 
-        launchUpdate();
+        loadEvents();
 
-        getSupportLoaderManager().restartLoader(0, null, this);
-        new CreateTabs().execute();
+        new CreateTabs().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -57,7 +56,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         super.onDestroy();
     }
 
-    private void launchUpdate() {
+    private void loadEvents() {
+        getSupportLoaderManager().restartLoader(0, null, this);
+
         startService(new Intent(EventsListActivity.this, DownloadEvents.class));
     }
 
@@ -68,8 +69,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter.changeCursor(data);
+    public void onLoadFinished(Loader<Cursor> loader, Cursor newCursor) {
+        adapter.changeCursor(newCursor);
     }
 
     @Override
@@ -111,6 +112,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
                 int code = cursor.getInt(cursor.getColumnIndex(DatabaseProvider.CategoriesTable.COLUMN_CODE));
                 tabLayout.addTab(tabLayout.newTab().setText(title).setTag(code));
             }
+            cursor.close();
         }
     }
 }

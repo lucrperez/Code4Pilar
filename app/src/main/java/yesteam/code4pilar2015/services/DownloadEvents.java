@@ -36,7 +36,7 @@ public class DownloadEvents extends Service {
 
     private class AsyncDownload extends AsyncTask<Void, Void, Void> {
 
-        private static final String URL_EVENTS = "http://www.zaragoza.es/api/recurso/cultura-ocio/evento-zaragoza.json?srsname=wgs84&sort=startDate%20asc&q=programa==Fiestas%20del%20Pilar";
+        private static final String URL_EVENTS = "http://www.zaragoza.es/api/recurso/cultura-ocio/evento-zaragoza.json?srsname=wgs84&sort=startDate%20asc&rows=1000&q=programa==Fiestas%20del%20Pilar";
 
         @Override
         protected Void doInBackground(Void... params) {
