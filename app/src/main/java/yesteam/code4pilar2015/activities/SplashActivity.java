@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import yesteam.code4pilar2015.R;
+import yesteam.code4pilar2015.services.DownloadCategories;
+import yesteam.code4pilar2015.services.DownloadEvents;
 
 public class SplashActivity extends Activity {
 
@@ -37,6 +39,8 @@ public class SplashActivity extends Activity {
                 finish();
             }
         });
+
+        launchUpdate();
 
         /*final TimerTask task = new TimerTask() {
             @Override
@@ -78,5 +82,10 @@ public class SplashActivity extends Activity {
                 task.cancel();
             }
         });*/
+    }
+
+    private void launchUpdate() {
+        startService(new Intent(SplashActivity.this, DownloadCategories.class));
+        startService(new Intent(SplashActivity.this, DownloadEvents.class));
     }
 }

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import yesteam.code4pilar2015.R;
 import yesteam.code4pilar2015.adapters.EventsAdapter;
-import yesteam.code4pilar2015.services.DownloadCategories;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        launchUpdate();
 
 /*
         RecyclerView mRecyclerViewLeft = (RecyclerView) findViewById(R.id.recycler_view_left);
@@ -87,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
 */
     }
 
-    private void launchUpdate() {
-        startService(new Intent(MainActivity.this, DownloadCategories.class));
-    }
 /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

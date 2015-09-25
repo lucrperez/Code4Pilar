@@ -1,6 +1,5 @@
 package yesteam.code4pilar2015.activities;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import yesteam.code4pilar2015.R;
 import yesteam.code4pilar2015.adapters.EventsAdapter;
 import yesteam.code4pilar2015.helpers.EmptyRecyclerView;
 import yesteam.code4pilar2015.provider.DatabaseProvider;
-import yesteam.code4pilar2015.services.DownloadEvents;
 
 public class EventsListActivity extends AppCompatActivity implements EventsAdapter.OnItemClickEventListener, LoaderManager.LoaderCallbacks<Cursor>, TabLayout.OnTabSelectedListener {
 
@@ -47,9 +45,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         adapter = new EventsAdapter(EventsListActivity.this, null, this);
         mRecyclerView.setAdapter(adapter);
 
-        loadEvents();
-
         new CreateTabs().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
@@ -57,12 +55,6 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         getSupportLoaderManager().destroyLoader(0);
 
         super.onDestroy();
-    }
-
-    private void loadEvents() {
-        getSupportLoaderManager().restartLoader(0, null, this);
-
-        startService(new Intent(EventsListActivity.this, DownloadEvents.class));
     }
 
     @Override
