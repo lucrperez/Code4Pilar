@@ -31,7 +31,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         setSupportActionBar(toolbar);
 
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_all_title));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_all_title).setTag(-1));
         tabLayout.setOnTabSelectedListener(this);
 
         TextView txtEmpty = (TextView) findViewById(R.id.empty);
@@ -47,7 +47,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
 
         new CreateTabs().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        getSupportLoaderManager().restartLoader(0, null, this);
+        Bundle extras = new Bundle();
+        extras.putInt("category", -1);
+        getSupportLoaderManager().restartLoader(0, extras, this);
     }
 
     @Override
@@ -59,8 +61,18 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String where = null;
+        String[] whereArgs = null;
+
+        int code = args.getInt("category", -1);
+
+        if (code >= 0) {
+            where = DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE + "=?";
+            whereArgs = new String[]{String.valueOf(code)};
+        }
+
         return new CursorLoader(EventsListActivity.this, DatabaseProvider.EventsTable.URI, null,
-                null, null, DatabaseProvider.EventsTable.COLUMN_START_DATE + " ASC");
+                where, whereArgs, DatabaseProvider.EventsTable.COLUMN_START_DATE + " ASC");
     }
 
     @Override
@@ -80,7 +92,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-
+        Bundle extras = new Bundle();
+        extras.putInt("category", (int) tab.getTag());
+        getSupportLoaderManager().restartLoader(0, extras, this);
     }
 
     @Override
