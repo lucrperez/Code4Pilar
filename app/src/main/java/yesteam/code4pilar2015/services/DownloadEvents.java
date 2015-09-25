@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import yesteam.code4pilar2015.provider.DatabaseProvider;
 
@@ -43,6 +44,9 @@ public class DownloadEvents extends Service {
             String strJson = null;
             try {
                 OkHttpClient client = new OkHttpClient();
+                client.setConnectTimeout(15, TimeUnit.SECONDS);
+                client.setReadTimeout(15, TimeUnit.SECONDS);
+
                 Request request = new Request.Builder().url(URL_EVENTS).build();
                 Response response = client.newCall(request).execute();
                 strJson = response.body().string();
