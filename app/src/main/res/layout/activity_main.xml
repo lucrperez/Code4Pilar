@@ -21,7 +21,7 @@
 
             <ImageView
                 android:id="@+id/main_img_ofrenda"
-                android:src="@drawable/ofrendaflores"
+                android:src="@drawable/ofrendaflores2015"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"/>
@@ -69,7 +69,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_weight="0.6"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -104,7 +104,7 @@
 
             <ImageView
                 android:id="@+id/main_img_artists"
-                android:src="@drawable/pilarartistas"
+                android:src="@drawable/categoriaspilares"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"/>
@@ -118,7 +118,7 @@
                 android:gravity="center_horizontal"
                 android:padding="5dp"
                 android:textColor="@color/white"
-                android:text="@string/main_artists"/>
+                android:text="@string/main_categories"/>
 
         </FrameLayout>
 

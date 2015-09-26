@@ -1,21 +1,31 @@
 <resources>
 
-    <string name="app_name">Fiestas del Pilar 2015</string>
-    <string name="row_event_image_description">imagen evento</string>
-    <string name="main_image_description_ofrenda">imagen ofrenda</string>
-    <string name="main_image_description_events">imagen eventos</string>
-    <string name="main_image_description_locations">imagen localizaciones</string>
-    <string name="main_image_description_artists">imagen artistas</string>
-    <string name="title_activity_main">Fiestas del Pilar 2015</string>
+    <!-- # Default Strings # -->
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- # Activity and App Titles # -->
+
+    <string name="app_name">Fiestas del Pilar 2015</string>
+
+    <!-- # Image Descriptions # -->
+
+    <string name="row_event_image_description">imagen evento</string>
+    <string name="main_image_description_ofrenda">imagen ofrenda</string>
+    <string name="main_image_description_events">imagen eventos</string>
+    <string name="main_image_description_locations">imagen localizaciones</string>
+    <string name="main_image_description_categories">imagen categories</string>
+
+    <!-- # Buttons Text # -->
+
     <string name="main_ofrenda">Ofrendas</string>
     <string name="main_events">Eventos</string>
     <string name="main_locations">Localizaciones</string>
-    <string name="main_artists">Artistas</string>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="main_categories">Categorías</string>
+
+    <!-- # Text for TextViews or Empty Lists # -->
+
     <string name="price_free">Gratis</string>
     <string name="tab_all_title">Todos</string>
     <string name="empty">We\'re loading all the data related to the Fiestas del Pilar events.\n\n
