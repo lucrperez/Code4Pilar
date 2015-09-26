@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         img3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent int_locations = new Intent(MainActivity.this, LocationsListActivity.class);
-                //startActivity(int_locations);
+                Intent int_locations = new Intent(MainActivity.this, LocationsActivity.class);
+                startActivity(int_locations);
             }
         });
 
@@ -62,26 +62,5 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(int_artists);
             }
         });
-
-
-/*
-        RecyclerView mRecyclerViewLeft = (RecyclerView) findViewById(R.id.recycler_view_left);
-        mRecyclerViewLeft.setHasFixedSize(true);
-
-        LinearLayoutManager mLayoutManagerLeft = new LinearLayoutManager(this);
-        mRecyclerViewLeft.setLayoutManager(mLayoutManagerLeft);
-
-        adapterLeft = new EventsAdapter(MainActivity.this, null, this);
-        mRecyclerViewLeft.setAdapter(adapterLeft);
-
-        RecyclerView mRecyclerViewRight = (RecyclerView) findViewById(R.id.recycler_view_right);
-        mRecyclerViewRight.setHasFixedSize(true);
-
-        LinearLayoutManager mLayoutManagerRight = new LinearLayoutManager(this);
-        mRecyclerViewRight.setLayoutManager(mLayoutManagerRight);
-
-        adapterRight = new EventsAdapter(MainActivity.this, null, this);
-        mRecyclerViewRight.setAdapter(adapterRight);
-*/
     }
 }
