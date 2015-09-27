@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Button Artists
-        ImageView img4 = (ImageView) findViewById(R.id.main_img_artists);
+        ImageView img4 = (ImageView) findViewById(R.id.main_img_categories);
         img4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent int_artists = new Intent(MainActivity.this, ArtistsListActivity.class);
-                //startActivity(int_artists);
+                Intent int_categories = new Intent(MainActivity.this, CategoriesListActivity.class);
+                startActivity(int_categories);
             }
         });
     }

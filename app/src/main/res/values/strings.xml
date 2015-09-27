@@ -31,5 +31,6 @@
     <string name="empty">We\'re loading all the data related to the Fiestas del Pilar events.\n\n
     This is done only once and after this point you can disconnect WiFi if you wish.</string>
     <string name="date_until">"Until "</string>
+    <string name="grid_category_image_description">category image</string>
 
 </resources>

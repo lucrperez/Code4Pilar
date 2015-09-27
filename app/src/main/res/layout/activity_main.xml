@@ -103,14 +103,14 @@
             android:layout_weight="0.5">
 
             <ImageView
-                android:id="@+id/main_img_artists"
+                android:id="@+id/main_img_categories"
                 android:src="@drawable/categoriaspilares"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/txt_artists"
+                android:id="@+id/txt_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

@@ -16,9 +16,9 @@
             android:exported="false" />
 
         <service android:name=".services.DownloadEvents" />
-        <service android:name=".services.DownloadCategories" />
 
         <activity android:name=".activities.EventsListActivity" />
+        <activity android:name=".activities.CategoriesListActivity"/>
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name" >
