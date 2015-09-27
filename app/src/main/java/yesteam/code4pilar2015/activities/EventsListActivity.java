@@ -11,7 +11,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -145,7 +144,6 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
                 @Override
                 public void run() {
                     int left = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(finalPos).getLeft();
-                    Log.d("asdasdasd", left + "");
                     tabLayout.scrollTo(left, 0);
                 }
             }, 100);
