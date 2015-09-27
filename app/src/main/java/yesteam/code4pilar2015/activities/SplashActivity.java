@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import yesteam.code4pilar2015.R;
-import yesteam.code4pilar2015.services.DownloadCategories;
 import yesteam.code4pilar2015.services.DownloadEvents;
 
 public class SplashActivity extends Activity {
@@ -85,7 +84,6 @@ public class SplashActivity extends Activity {
     }
 
     private void launchUpdate() {
-        startService(new Intent(SplashActivity.this, DownloadCategories.class));
         startService(new Intent(SplashActivity.this, DownloadEvents.class));
     }
 }

@@ -92,6 +92,15 @@ public class DownloadEvents extends Service {
                     if (!event.isNull("temas")) {
                         JSONObject tema = event.getJSONArray("temas").getJSONObject(0);
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE, tema.getString("id"));
+
+                        ContentValues values = new ContentValues();
+                        values.put(DatabaseProvider.CategoriesTable.COLUMN_CODE, tema.getInt("id"));
+                        values.put(DatabaseProvider.CategoriesTable.COLUMN_TITLE, tema.getString("title"));
+                        if (!tema.isNull("image")) {
+                            values.put(DatabaseProvider.CategoriesTable.COLUMN_IMAGE, tema.getString("image"));
+                        }
+
+                        getContentResolver().insert(DatabaseProvider.CategoriesTable.URI, values);
                     }
 
                     if (!event.isNull("subEvent")) {
