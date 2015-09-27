@@ -1,5 +1,6 @@
 package yesteam.code4pilar2015.activities;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -91,7 +92,9 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
 
     @Override
     public void onItemClickEvent(Cursor cursor) {
-
+        Intent iEvent = new Intent(EventsListActivity.this, DetailEventActivity.class);
+        iEvent.putExtra("event-code", cursor.getInt(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_CODE)));
+        startActivity(iEvent);
     }
 
     @Override
