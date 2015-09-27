@@ -92,10 +92,10 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
         if (cursor.getPosition() == 0) {
             holder.section.setVisibility(View.VISIBLE);
 
-            String date = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
+            String date = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
             if (date != null) {
                 try {
-                    holder.section_title.setText(formatterSection.format(formatterIn.parse(date)));
+                    holder.section_title.setText(context.getString(R.string.date_until) + formatterSection.format(formatterIn.parse(date)));
 
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -107,15 +107,15 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
 
         } else {
             cursor.moveToPrevious();
-            String datePrev = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
+            String datePrev = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
             cursor.moveToNext();
 
-            String dateThis = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
+            String dateThis = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
             if ((datePrev != null) && (dateThis != null) && (!datePrev.equalsIgnoreCase(dateThis))) {
                 holder.section.setVisibility(View.VISIBLE);
 
                 try {
-                    holder.section_title.setText(formatterSection.format(formatterIn.parse(dateThis)));
+                    holder.section_title.setText(context.getString(R.string.date_until) + formatterSection.format(formatterIn.parse(dateThis)));
 
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -154,9 +154,21 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
                     dateEnd = formatterIn.parse(date);
                 }
 
-                if ((dateStart != null) && (dateEnd != null)) {
-                    holder.date.setText(formatterOut.format(dateStart) + " - " + formatterOut.format(dateEnd));
+                if (dateStart != null) {
+                    if (dateEnd != null) {
+                        holder.date.setText(formatterOut.format(dateStart) + " - " + formatterOut.format(dateEnd));
+                    } else {
+                        holder.date.setText(formatterOut.format(dateStart));
+                    }
+
+                } else {
+                    if (dateEnd != null) {
+                        holder.date.setText(formatterOut.format(dateEnd));
+                    } else {
+                        holder.date.setText("");
+                    }
                 }
+
 
             } catch (ParseException e) {
                 e.printStackTrace();
