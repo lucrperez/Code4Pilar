@@ -1,5 +1,6 @@
 package yesteam.code4pilar2015.activities;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -50,7 +51,9 @@ public class CategoriesListActivity extends AppCompatActivity implements Categor
 
     @Override
     public void onItemClickEvent(Cursor cursor) {
-
+        Intent iListCategory = new Intent(CategoriesListActivity.this, EventsListActivity.class);
+        iListCategory.putExtra("category_code", cursor.getInt(cursor.getColumnIndex(DatabaseProvider.CategoriesTable.COLUMN_CODE)));
+        startActivity(iListCategory);
     }
 
     @Override

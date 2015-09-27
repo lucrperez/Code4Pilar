@@ -3,6 +3,7 @@ package yesteam.code4pilar2015.activities;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -10,6 +11,8 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import yesteam.code4pilar2015.R;
@@ -45,7 +48,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         adapter = new EventsAdapter(EventsListActivity.this, null, this);
         mRecyclerView.setAdapter(adapter);
 
-        new CreateTabs().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        int code = getIntent().getIntExtra("category_code", 0);
+        new CreateTabs(code).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         Bundle extras = new Bundle();
         extras.putInt("category", -1);
@@ -108,6 +112,12 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
 
     private class CreateTabs extends AsyncTask<Void, Void, Cursor> {
 
+        private int categorySelected;
+
+        public CreateTabs(int categorySelected) {
+            this.categorySelected = categorySelected;
+        }
+
         @Override
         protected Cursor doInBackground(Void... params) {
             return getContentResolver().query(DatabaseProvider.CategoriesTable.URI, null, null, null, DatabaseProvider.CategoriesTable.COLUMN_TITLE + " ASC");
@@ -117,11 +127,29 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         protected void onPostExecute(Cursor cursor) {
             super.onPostExecute(cursor);
 
+            int pos = 0;
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(DatabaseProvider.CategoriesTable.COLUMN_TITLE));
                 int code = cursor.getInt(cursor.getColumnIndex(DatabaseProvider.CategoriesTable.COLUMN_CODE));
                 tabLayout.addTab(tabLayout.newTab().setText(title).setTag(code));
+
+                if (code == categorySelected) {
+                    pos = cursor.getPosition() + 1;
+                }
             }
+
+            tabLayout.getTabAt(pos).select();
+
+            final int finalPos = pos;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int left = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(finalPos).getLeft();
+                    Log.d("asdasdasd", left + "");
+                    tabLayout.scrollTo(left, 0);
+                }
+            }, 100);
+
             cursor.close();
         }
     }
