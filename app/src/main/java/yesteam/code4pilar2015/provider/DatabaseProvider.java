@@ -56,4 +56,15 @@ public class DatabaseProvider extends SQLiteContentProviderImpl {
 
         public static final Uri URI = Uri.parse(AUTHORITY).buildUpon().appendPath(TABLE_NAME).build();
     }
+
+    public static class OfrendaTable {
+        public static final String TABLE_NAME = "ofrenda";
+
+        public static final String COLUMN_ID = "_id";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_TIME = "meet_time";
+        public static final String COLUMN_ACCESS = "meet_access";
+
+        public static final Uri URI = Uri.parse(AUTHORITY).buildUpon().appendPath(TABLE_NAME).build();
+    }
 }
