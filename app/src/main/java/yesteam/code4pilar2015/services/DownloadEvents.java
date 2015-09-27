@@ -53,6 +53,7 @@ public class DownloadEvents extends Service {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
 
             try {
@@ -150,6 +151,7 @@ public class DownloadEvents extends Service {
 
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
+                return null;
             }
 
             return null;
