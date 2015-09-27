@@ -72,7 +72,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         }
 
         return new CursorLoader(EventsListActivity.this, DatabaseProvider.EventsTable.URI, null,
-                where, whereArgs, DatabaseProvider.EventsTable.COLUMN_START_DATE + " ASC");
+                where, whereArgs,
+                DatabaseProvider.EventsTable.COLUMN_START_DATE + " ASC, " + DatabaseProvider.EventsTable.COLUMN_START_HOUR + " ASC");
     }
 
     @Override
