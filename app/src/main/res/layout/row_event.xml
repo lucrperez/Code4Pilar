@@ -1,105 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:layout_marginBottom="7dp"
-    android:layout_marginTop="7dp"
-    android:background="@color/white"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="130dp"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/row_event_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/row_event_image_description"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder" />
+    <LinearLayout
+        android:id="@+id/section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/row_event_date"
-            android:layout_width="match_parent"
+            android:id="@+id/section_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/translucent"
-            android:ellipsize="marquee"
-            android:gravity="center_horizontal"
-            android:lines="1"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="1"
-            android:padding="5dp"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textColor="@color/white" />
-    </FrameLayout>
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:layout_height="130dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/row_event_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <FrameLayout
+            android:layout_width="130dp"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/row_event_description"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ellipsize="end" />
+            <ImageView
+                android:id="@+id/row_event_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/row_event_image_description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder" />
+
+            <TextView
+                android:id="@+id/row_event_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/translucent"
+                android:ellipsize="marquee"
+                android:gravity="center_horizontal"
+                android:lines="1"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/white" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <TextView
-                android:id="@+id/row_event_place"
-                android:layout_width="0dp"
+                android:id="@+id/row_event_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="0.5"
-                android:background="@color/gray"
-                android:ellipsize="marquee"
-                android:gravity="center_horizontal"
+                android:ellipsize="end"
                 android:lines="1"
-                android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="1"
-                android:padding="3dp"
-                android:scrollHorizontally="true"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/row_event_price"
-                android:layout_width="0dp"
+                android:id="@+id/row_event_description"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_marginStart="2dp"
-                android:layout_weight="0.5"
-                android:background="@color/gray"
-                android:ellipsize="marquee"
-                android:gravity="center_horizontal"
-                android:lines="1"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="1"
-                android:padding="3dp"
-                android:scrollHorizontally="true"
-                android:singleLine="true" />
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/row_event_place"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/gray"
+                    android:ellipsize="marquee"
+                    android:gravity="center_horizontal"
+                    android:lines="1"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="1"
+                    android:padding="3dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/row_event_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/gray"
+                    android:ellipsize="marquee"
+                    android:gravity="center_horizontal"
+                    android:lines="1"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="1"
+                    android:padding="3dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
+    </LinearLayout>
 </LinearLayout>

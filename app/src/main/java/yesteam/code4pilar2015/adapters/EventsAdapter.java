@@ -2,12 +2,15 @@ package yesteam.code4pilar2015.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -30,14 +33,18 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
     }
 
     private Context context;
-    private SimpleDateFormat formatterIn, formatterOut;
+    private SimpleDateFormat formatterIn, formatterOut, formatterSection;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout section;
         public ImageView image;
-        public TextView date, title, description, place, price;
+        public TextView date, title, description, place, price, section_title;
 
         public ViewHolder(View rowView) {
             super(rowView);
+
+            section = (LinearLayout) rowView.findViewById(R.id.section);
+            section_title = (TextView) rowView.findViewById(R.id.section_title);
 
             image = (ImageView) rowView.findViewById(R.id.row_event_image);
             date = (TextView) rowView.findViewById(R.id.row_event_date);
@@ -61,8 +68,17 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
 
         this.context = context;
         this.mListener = listener;
+
         formatterIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         formatterOut = new SimpleDateFormat("dd/MM", Locale.getDefault());
+
+        String bestPattern;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            bestPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MMMMd");
+        } else {
+            bestPattern = "d MMMM";
+        }
+        formatterSection = new SimpleDateFormat(bestPattern, Locale.getDefault());
     }
 
     @Override
@@ -73,6 +89,43 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
 
     @Override
     public void onBindViewHolderCursor(ViewHolder holder, Cursor cursor) {
+        if (cursor.getPosition() == 0) {
+            holder.section.setVisibility(View.VISIBLE);
+
+            String date = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
+            if (date != null) {
+                try {
+                    holder.section_title.setText(formatterSection.format(formatterIn.parse(date)));
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                holder.section.setVisibility(View.GONE);
+            }
+
+        } else {
+            cursor.moveToPrevious();
+            String datePrev = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
+            cursor.moveToNext();
+
+            String dateThis = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
+            if ((datePrev != null) && (dateThis != null) && (!datePrev.equalsIgnoreCase(dateThis))) {
+                holder.section.setVisibility(View.VISIBLE);
+
+                try {
+                    holder.section_title.setText(formatterSection.format(formatterIn.parse(dateThis)));
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                holder.section.setVisibility(View.GONE);
+            }
+        }
+
         holder.title.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE)));
         holder.description.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_DESCRIPTION)));
         holder.place.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PLACE_NAME)));
@@ -113,7 +166,7 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
         String photo = "http:" + cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_IMAGE));
         Picasso.with(context).load(photo).placeholder(R.drawable.placeholder).noFade().into(holder.image);
 
-        
+
         holder.date.setSelected(true);
         holder.place.setSelected(true);
         holder.price.setSelected(true);
