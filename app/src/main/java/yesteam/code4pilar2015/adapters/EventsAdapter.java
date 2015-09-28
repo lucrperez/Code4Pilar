@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -92,14 +91,9 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
         if (cursor.getPosition() == 0) {
             holder.section.setVisibility(View.VISIBLE);
 
-            String date = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
-            if (date != null) {
-                try {
-                    holder.section_title.setText(context.getString(R.string.date_until) + formatterSection.format(formatterIn.parse(date)));
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+            long date = cursor.getLong(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
+            if (date > 0) {
+                holder.section_title.setText(context.getString(R.string.date_until) + formatterSection.format(new Date(date)));
 
             } else {
                 holder.section.setVisibility(View.GONE);
@@ -107,19 +101,13 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
 
         } else {
             cursor.moveToPrevious();
-            String datePrev = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
+            long datePrev = cursor.getLong(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
             cursor.moveToNext();
 
-            String dateThis = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
-            if ((datePrev != null) && (dateThis != null) && (!datePrev.equalsIgnoreCase(dateThis))) {
+            long dateThis = cursor.getLong(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
+            if ((datePrev > 0) && (dateThis > 0) && (datePrev != dateThis)) {
                 holder.section.setVisibility(View.VISIBLE);
-
-                try {
-                    holder.section_title.setText(context.getString(R.string.date_until) + formatterSection.format(formatterIn.parse(dateThis)));
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                holder.section_title.setText(context.getString(R.string.date_until) + formatterSection.format(new Date(dateThis)));
 
             } else {
                 holder.section.setVisibility(View.GONE);
@@ -140,38 +128,32 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
             holder.date.setText(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_HOUR)));
 
         } else {
-            try {
-                Date dateStart = null;
-                Date dateEnd = null;
+            Date dateStart = null;
+            Date dateEnd = null;
 
-                String date = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
-                if (!TextUtils.isEmpty(date)) {
-                    dateStart = formatterIn.parse(date);
-                }
+            long date = cursor.getLong(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
+            if (date > 0) {
+                dateStart = new Date(date);
+            }
 
-                date = cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
-                if (!TextUtils.isEmpty(date)) {
-                    dateEnd = formatterIn.parse(date);
-                }
+            date = cursor.getLong(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
+            if (date > 0) {
+                dateEnd = new Date(date);
+            }
 
-                if (dateStart != null) {
-                    if (dateEnd != null) {
-                        holder.date.setText(formatterOut.format(dateStart) + " - " + formatterOut.format(dateEnd));
-                    } else {
-                        holder.date.setText(formatterOut.format(dateStart));
-                    }
-
+            if (dateStart != null) {
+                if (dateEnd != null) {
+                    holder.date.setText(formatterOut.format(dateStart) + " - " + formatterOut.format(dateEnd));
                 } else {
-                    if (dateEnd != null) {
-                        holder.date.setText(formatterOut.format(dateEnd));
-                    } else {
-                        holder.date.setText("");
-                    }
+                    holder.date.setText(formatterOut.format(dateStart));
                 }
 
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+            } else {
+                if (dateEnd != null) {
+                    holder.date.setText(formatterOut.format(dateEnd));
+                } else {
+                    holder.date.setText("");
+                }
             }
         }
 
