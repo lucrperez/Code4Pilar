@@ -82,9 +82,9 @@ public class DownloadEvents extends Service {
                     ContentValues eventValues = new ContentValues();
 
                     eventValues.put(DatabaseProvider.EventsTable.COLUMN_CODE, event.getInt("id"));
-                    eventValues.put(DatabaseProvider.EventsTable.COLUMN_TITLE, event.getString("title"));
+                    eventValues.put(DatabaseProvider.EventsTable.COLUMN_TITLE, event.getString("title").trim());
                     if (!event.isNull("description")) {
-                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_DESCRIPTION, stripHtml(event.getString("description")));
+                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_DESCRIPTION, stripHtml(event.getString("description")).trim());
                     }
                     if (!event.isNull("startDate")) {
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_DATE, formatterIn.parse(event.getString("startDate")).getTime());
@@ -104,7 +104,7 @@ public class DownloadEvents extends Service {
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, price.getString("hasCurrencyValue") + " " + price.getString("hasCurrency"));
 
                     } else if (!event.isNull("precioEntrada")) {
-                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, stripHtml(event.getString("precioEntrada")));
+                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, stripHtml(event.getString("precioEntrada")).trim());
                     }
 
                     if (!event.isNull("temas")) {
@@ -128,7 +128,7 @@ public class DownloadEvents extends Service {
                             eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_HOUR, subEvent.getString("horaInicio"));
 
                         } else if (!subEvent.isNull("horario")) {
-                            eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_HOUR, stripHtml(subEvent.getString("horario")));
+                            eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_HOUR, stripHtml(subEvent.getString("horario")).trim());
                         }
 
                         JSONObject place = subEvent.getJSONObject("lugar");
@@ -139,7 +139,7 @@ public class DownloadEvents extends Service {
                         placeValues.put(DatabaseProvider.PlacesTable.COLUMN_CODE, place.getString("id"));
                         placeValues.put(DatabaseProvider.PlacesTable.COLUMN_TITLE, place.getString("title"));
                         if (!place.isNull("direccion")) {
-                            placeValues.put(DatabaseProvider.PlacesTable.COLUMN_ADDRESS, place.getString("direccion"));
+                            placeValues.put(DatabaseProvider.PlacesTable.COLUMN_ADDRESS, place.getString("direccion").trim());
                         }
                         if (!place.isNull("cp")) {
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_CP, place.getString("cp"));
@@ -151,7 +151,7 @@ public class DownloadEvents extends Service {
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_EMAIL, place.getString("mail"));
                         }
                         if (!place.isNull("accesibilidad")) {
-                            placeValues.put(DatabaseProvider.PlacesTable.COLUMN_ACCESSIBILITY, stripHtml(place.getString("accesibilidad")));
+                            placeValues.put(DatabaseProvider.PlacesTable.COLUMN_ACCESSIBILITY, stripHtml(place.getString("accesibilidad")).trim());
                         }
 
                         if (!place.isNull("geometry")) {
