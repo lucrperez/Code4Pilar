@@ -18,6 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import yesteam.code4pilar2015.provider.DatabaseProvider;
@@ -71,6 +74,7 @@ public class DownloadEvents extends Service {
                 }
 
                 JSONArray events = jsonData.getJSONArray("result");
+                SimpleDateFormat formatterIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
 
                 for (int i = 0; i < events.length(); i++) {
                     JSONObject event = events.getJSONObject(i);
@@ -83,10 +87,10 @@ public class DownloadEvents extends Service {
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_DESCRIPTION, stripHtml(event.getString("description")));
                     }
                     if (!event.isNull("startDate")) {
-                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_DATE, event.getString("startDate"));
+                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_START_DATE, formatterIn.parse(event.getString("startDate")).getTime());
                     }
                     if (!event.isNull("endDate")) {
-                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_END_DATE, event.getString("endDate"));
+                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_END_DATE, formatterIn.parse(event.getString("endDate")).getTime());
                     }
                     if (!event.isNull("web")) {
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_WEB, event.getString("web"));
@@ -163,6 +167,10 @@ public class DownloadEvents extends Service {
                 }
 
             } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+                return null;
+
+            } catch (ParseException e) {
                 e.printStackTrace();
                 return null;
             }
