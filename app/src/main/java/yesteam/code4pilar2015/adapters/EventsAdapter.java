@@ -32,7 +32,7 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
     }
 
     private Context context;
-    private SimpleDateFormat formatterIn, formatterOut, formatterSection;
+    private SimpleDateFormat formatterOut, formatterSection;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout section;
@@ -68,7 +68,6 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
         this.context = context;
         this.mListener = listener;
 
-        formatterIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         formatterOut = new SimpleDateFormat("dd/MM", Locale.getDefault());
 
         String bestPattern;
