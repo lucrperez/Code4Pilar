@@ -38,5 +38,10 @@
     <string name="detail_event_title_price">Precio</string>
     <string name="detail_event_title_other">Otros datos</string>
     <string name="places_details_text">Ver eventos</string>
+    <string name="detail_text_location_email">"Email: "</string>
+    <string name="detail_text_location_telephone">"Telephone: "</string>
+    <string name="detail_text_category">"Category of event: "</string>
+    <string name="detail_text_hour">"Horario: "</string>
+    <string name="detail_text_other_web">"Web: "</string>
 
 </resources>
