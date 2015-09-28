@@ -139,19 +139,28 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
                     pos = cursor.getPosition() + 1;
                 }
             }
-
-            tabLayout.getTabAt(pos).select();
-
-            final int finalPos = pos;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int left = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(finalPos).getLeft();
-                    tabLayout.scrollTo(left, 0);
-                }
-            }, 100);
-
             cursor.close();
+
+            if (tabLayout.getTabCount() > 1) {
+                tabLayout.getTabAt(pos).select();
+
+                final int finalPos = pos;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        int left = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(finalPos).getLeft();
+                        tabLayout.scrollTo(left, 0);
+                    }
+                }, 100);
+
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        new CreateTabs(categorySelected).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    }
+                }, 1000);
+            }
         }
     }
 }
