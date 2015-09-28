@@ -3,6 +3,7 @@ package yesteam.code4pilar2015.services;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -57,7 +58,19 @@ public class DownloadEvents extends Service {
             }
 
             try {
-                JSONArray events = new JSONObject(strJson).getJSONArray("result");
+                JSONObject jsonData = new JSONObject(strJson);
+                int total = jsonData.getInt("totalCount");
+
+                Cursor countCursor = getContentResolver().query(DatabaseProvider.EventsTable.URI, new String[]{"count(*) AS count"}, null, null, null);
+                countCursor.moveToFirst();
+                int count = countCursor.getInt(0);
+                countCursor.close();
+
+                if (total == count) {
+                    return null;
+                }
+
+                JSONArray events = jsonData.getJSONArray("result");
 
                 for (int i = 0; i < events.length(); i++) {
                     JSONObject event = events.getJSONObject(i);
