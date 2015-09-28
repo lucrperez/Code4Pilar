@@ -32,5 +32,10 @@
     This is done only once and after this point you can disconnect WiFi if you wish.</string>
     <string name="date_until">"Until "</string>
     <string name="grid_category_image_description">category image</string>
+    <string name="detail_event_title_date">Fecha y horario</string>
+    <string name="detail_event_title_description">Descripción</string>
+    <string name="detail_event_title_location">Localización</string>
+    <string name="detail_event_title_price">Precio</string>
+    <string name="detail_event_title_other">Otros datos</string>
 
 </resources>
