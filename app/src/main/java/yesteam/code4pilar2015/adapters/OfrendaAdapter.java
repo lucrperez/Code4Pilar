@@ -37,13 +37,11 @@ public class OfrendaAdapter extends ArrayAdapter<OfrendaItem> {
         View rowView = inflater.inflate(R.layout.row_ofrenda, parent, false);
 
         //3. Get the views from layout
-        TextView idView = (TextView) rowView.findViewById(R.id.row_ofrenda_id);
         TextView titleView = (TextView) rowView.findViewById(R.id.row_ofrenda_name);
         TextView hourView = (TextView) rowView.findViewById(R.id.row_ofrenda_hour);
         TextView accessView = (TextView) rowView.findViewById(R.id.row_ofrenda_access);
 
         //4. Set the text for the View
-        idView.setText(Integer.toString(itemArrayList.get(position).getID()));
         titleView.setText(itemArrayList.get(position).getName());
         hourView.setText(itemArrayList.get(position).getMeet_hour());
         int access = itemArrayList.get(position).getAccess();
