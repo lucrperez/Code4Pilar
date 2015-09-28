@@ -115,7 +115,6 @@ public class OfrendaListActivity extends AppCompatActivity {
             items.add(ofrendaItem);
         }
 
-        items.add(new OfrendaItem(-1, getString(R.string.empty), "", 0));
         return items;
     }
 
