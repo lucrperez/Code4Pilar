@@ -37,5 +37,6 @@
     <string name="detail_event_title_location">Localización</string>
     <string name="detail_event_title_price">Precio</string>
     <string name="detail_event_title_other">Otros datos</string>
+    <string name="places_details_text">Ver eventos</string>
 
 </resources>
