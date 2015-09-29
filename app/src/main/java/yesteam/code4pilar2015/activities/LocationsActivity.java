@@ -1,9 +1,11 @@
 package yesteam.code4pilar2015.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,22 +43,60 @@ public class LocationsActivity extends AppCompatActivity {
             public void onInfoWindowClick(Marker marker) {
                 for (LocationItem it : items) {
                     LatLng ll = new LatLng(it.getLat(), it.getLng());
-                    if (marker.getPosition() == ll) {
-                        Intent intent = new Intent(getApplicationContext(), LocationListActivity.class);
-                        intent.putExtra("code", it.getCode());
-                        startActivity(intent);
-                        break;
+                    if (marker.getPosition().latitude == ll.latitude && marker.getPosition().longitude == ll.longitude) {
+
+                        String[] projection = new String[]{DatabaseProvider.EventsTable.COLUMN_TITLE, DatabaseProvider.EventsTable.COLUMN_CODE};
+                        String where = DatabaseProvider.EventsTable.COLUMN_PLACE_CODE + "='" + it.getCode() + "'";
+                        final Cursor cursor = getContentResolver().query(DatabaseProvider.EventsTable.URI, projection, where, null, null);
+
+                        ArrayList<String> items = new ArrayList<String>();
+
+                        if (cursor.moveToFirst()) {
+                            items.add(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE)));
+                        }
+                        while (cursor.moveToNext()) {
+                            items.add(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE)));
+                        }
+
+                        CharSequence[] cs = items.toArray(new CharSequence[items.size()]);
+
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(LocationsActivity.this);
+
+                        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+
+                        builder.setTitle(R.string.main_events)
+                                .setItems(cs, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        cursor.moveToPosition(which);
+                                        Intent intent = new Intent(getApplicationContext(), DetailEventActivity.class);
+                                        intent.putExtra("event-code", cursor.getInt(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_CODE)));
+                                        startActivity(intent);
+                                    }
+                                });
+
+                        builder.create();
+                        builder.show();
                     }
                 }
             }
         });
 
-        new LoadLocations().execute();
-    }
+            new
+
+            LoadLocations()
+
+            .
+
+            execute();
+        }
 
 
-
-    private class LoadLocations extends AsyncTask<Void, Void, ArrayList<LocationItem>> {
+        private class LoadLocations extends AsyncTask<Void, Void, ArrayList<LocationItem>> {
 
         @Override
         protected ArrayList<LocationItem> doInBackground(Void... params) {

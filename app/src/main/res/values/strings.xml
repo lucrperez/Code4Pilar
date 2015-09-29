@@ -23,6 +23,7 @@
     <string name="main_events">Eventos</string>
     <string name="main_locations">Localizaciones</string>
     <string name="main_categories">Categorías</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- # Text for TextViews or Empty Lists # -->
 
