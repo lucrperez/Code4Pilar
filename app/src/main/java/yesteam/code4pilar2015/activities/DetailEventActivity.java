@@ -184,19 +184,18 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
             map.addMarker(new MarkerOptions().position(location).title(placeName)).showInfoWindow();
 
-            eventCursor.close();
-            placeCursor.close();
-            categoryCursor.close();
-
-
             String eventWeb = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_WEB));
             if (!TextUtils.isEmpty(eventWeb)) {
-                textOtherWeb.setText(getString(R.string.detail_text_other_web) + placeEmail);
+                textOtherWeb.setText(getString(R.string.detail_text_other_web) + eventWeb);
                 textOtherWeb.setVisibility(View.VISIBLE);
             } else {
                 textOtherWeb.setVisibility(View.GONE);
             }
 
+
+            eventCursor.close();
+            placeCursor.close();
+            categoryCursor.close();
         }
     }
 }
