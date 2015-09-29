@@ -1,11 +1,9 @@
 package yesteam.code4pilar2015.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,7 +43,15 @@ public class LocationsActivity extends AppCompatActivity {
                     LatLng ll = new LatLng(it.getLat(), it.getLng());
                     if (marker.getPosition().latitude == ll.latitude && marker.getPosition().longitude == ll.longitude) {
 
-                        String[] projection = new String[]{DatabaseProvider.EventsTable.COLUMN_TITLE, DatabaseProvider.EventsTable.COLUMN_CODE};
+
+                        Intent intent = new Intent(LocationsActivity.this, LocationListActivity.class);
+                        intent.putExtra("place-code", it.getCode());
+                        startActivity(intent);
+
+                        break;
+
+
+                        /*String[] projection = new String[]{DatabaseProvider.EventsTable.COLUMN_TITLE, DatabaseProvider.EventsTable.COLUMN_CODE};
                         String where = DatabaseProvider.EventsTable.COLUMN_PLACE_CODE + "='" + it.getCode() + "'";
                         final Cursor cursor = getContentResolver().query(DatabaseProvider.EventsTable.URI, projection, where, null, null);
 
@@ -80,7 +86,7 @@ public class LocationsActivity extends AppCompatActivity {
                                 });
 
                         builder.create();
-                        builder.show();
+                        builder.show();*/
                     }
                 }
             }
