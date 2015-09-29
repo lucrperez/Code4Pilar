@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -34,6 +35,7 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
     private SquareImageView image;
     private TextView textDescription, textCategory, textDate, textHour, textPrice, textLocationName, textLocationAddress, textLocationTelephone, textLocationEmail, textLocationAccessibility, textOtherWeb;
     private GoogleMap map;
+    private CardView cardDescription, cardDate, cardPrice, cardLocation, cardOther;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,12 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        cardDescription = (CardView) findViewById(R.id.card_description);
+        cardDate = (CardView) findViewById(R.id.card_date);
+        cardPrice = (CardView) findViewById(R.id.card_price);
+        cardLocation = (CardView) findViewById(R.id.card_location);
+        cardOther = (CardView) findViewById(R.id.card_other);
 
         toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         image = (SquareImageView) findViewById(R.id.image);
@@ -90,7 +98,10 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
             String placeCode = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PLACE_CODE));
             int categoryCode = eventCursor.getInt(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE));
 
-            Cursor placeCursor = getContentResolver().query(DatabaseProvider.PlacesTable.URI, null, DatabaseProvider.PlacesTable.COLUMN_CODE + "=?", new String[]{placeCode}, null);
+            Cursor placeCursor = null;
+            if (placeCode != null) {
+                placeCursor = getContentResolver().query(DatabaseProvider.PlacesTable.URI, null, DatabaseProvider.PlacesTable.COLUMN_CODE + "=?", new String[]{placeCode}, null);
+            }
             Cursor categoryCursor = getContentResolver().query(DatabaseProvider.CategoriesTable.URI, null, DatabaseProvider.CategoriesTable.COLUMN_CODE + "=?", new String[]{String.valueOf(categoryCode)}, null);
 
             return new Cursor[]{eventCursor, placeCursor, categoryCursor};
@@ -104,98 +115,111 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
             Cursor placeCursor = cursors[1];
             Cursor categoryCursor = cursors[2];
 
-            eventCursor.moveToFirst();
-            placeCursor.moveToFirst();
-            categoryCursor.moveToFirst();
+            if (eventCursor != null) {
+                eventCursor.moveToFirst();
 
-            String title = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE));
-            toolbarLayout.setTitle(title);
+                String title = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE));
+                toolbarLayout.setTitle(title);
 
-            String imagePath = "http:" + eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_IMAGE));
-            Picasso.with(DetailEventActivity.this).load(imagePath).placeholder(R.drawable.placeholder).noFade().into(image);
+                String imagePath = "http:" + eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_IMAGE));
+                Picasso.with(DetailEventActivity.this).load(imagePath).placeholder(R.drawable.placeholder).noFade().into(image);
 
-            String description = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_DESCRIPTION));
-            textDescription.setText(description);
+                String description = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_DESCRIPTION));
+                textDescription.setText(description);
 
-            String category = categoryCursor.getString(categoryCursor.getColumnIndex(DatabaseProvider.CategoriesTable.COLUMN_TITLE));
-            textCategory.setText(getString(R.string.detail_text_category) + category);
+                long startDate = eventCursor.getLong(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
+                long endDate = eventCursor.getLong(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
+                String hours = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_HOUR));
+                if (startDate > 0) {
+                    if (startDate - endDate == 0) {
+                        textDate.setText(formatter.format(new Date(endDate)));
+                    } else {
+                        textDate.setText(formatter.format(new Date(startDate)) + " - " + formatter.format(new Date(endDate)));
+                    }
 
-            long startDate = eventCursor.getLong(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_DATE));
-            long endDate = eventCursor.getLong(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
-            String hours = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_START_HOUR));
-            if (startDate > 0) {
-                if (startDate - endDate == 0) {
-                    textDate.setText(formatter.format(new Date(endDate)));
                 } else {
-                    textDate.setText(formatter.format(new Date(startDate)) + " - " + formatter.format(new Date(endDate)));
+                    textDate.setText(getString(R.string.date_until) + formatter.format(new Date(endDate)));
+                }
+                if (hours != null) {
+                    textHour.setText(getString(R.string.detail_text_hour) + hours);
+                } else {
+                    textHour.setVisibility(View.GONE);
                 }
 
-            } else {
-                textDate.setText(getString(R.string.date_until) + formatter.format(new Date(endDate)));
-            }
-            textHour.setText(getString(R.string.detail_text_hour) + hours);
+                String price = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PRICE));
+                if (!TextUtils.isEmpty(price)) {
+                    textPrice.setText(price);
+                } else {
+                    textPrice.setText(R.string.price_free);
+                }
 
-            String price = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PRICE));
-            if (!TextUtils.isEmpty(price)) {
-                textPrice.setText(price);
-            } else {
-                textPrice.setText(R.string.price_free);
-            }
+                String eventWeb = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_WEB));
+                if (!TextUtils.isEmpty(eventWeb)) {
+                    textOtherWeb.setText(getString(R.string.detail_text_other_web) + eventWeb);
+                } else {
+                    cardOther.setVisibility(View.GONE);
+                }
 
-            String placeName = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_TITLE));
-            textLocationName.setText(placeName);
-
-            String placeAddress = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_ADDRESS));
-            if (!TextUtils.isEmpty(placeAddress)) {
-                textLocationAddress.setText(placeAddress);
-                textLocationAddress.setVisibility(View.VISIBLE);
-            } else {
-                textLocationAddress.setVisibility(View.GONE);
-            }
-
-            String placeTelephone = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_TELEPHONE));
-            if (!TextUtils.isEmpty(placeTelephone)) {
-                textLocationTelephone.setText(getString(R.string.detail_text_location_telephone) + placeTelephone);
-                textLocationTelephone.setVisibility(View.VISIBLE);
-            } else {
-                textLocationTelephone.setVisibility(View.GONE);
-            }
-
-            String placeEmail = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_EMAIL));
-            if (!TextUtils.isEmpty(placeEmail)) {
-                textLocationEmail.setText(getString(R.string.detail_text_location_email) + placeEmail);
-                textLocationEmail.setVisibility(View.VISIBLE);
-            } else {
-                textLocationEmail.setVisibility(View.GONE);
-            }
-
-            String placeAccessibility = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_ACCESSIBILITY));
-            if (!TextUtils.isEmpty(placeAccessibility)) {
-                textLocationAccessibility.setText(placeAccessibility);
-                textLocationAccessibility.setVisibility(View.VISIBLE);
-            } else {
-                textLocationAccessibility.setVisibility(View.GONE);
+                eventCursor.close();
             }
 
 
-            Double latitude = placeCursor.getDouble(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LATITUDE));
-            Double longitude = placeCursor.getDouble(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE));
-            LatLng location = new LatLng(latitude, longitude);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
-            map.addMarker(new MarkerOptions().position(location).title(placeName)).showInfoWindow();
+            if (categoryCursor != null) {
+                categoryCursor.moveToFirst();
 
-            String eventWeb = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_WEB));
-            if (!TextUtils.isEmpty(eventWeb)) {
-                textOtherWeb.setText(getString(R.string.detail_text_other_web) + eventWeb);
-                textOtherWeb.setVisibility(View.VISIBLE);
-            } else {
-                textOtherWeb.setVisibility(View.GONE);
+                String category = categoryCursor.getString(categoryCursor.getColumnIndex(DatabaseProvider.CategoriesTable.COLUMN_TITLE));
+                textCategory.setText(getString(R.string.detail_text_category) + category);
+
+                categoryCursor.close();
             }
 
 
-            eventCursor.close();
-            placeCursor.close();
-            categoryCursor.close();
+            if (placeCursor != null) {
+                placeCursor.moveToFirst();
+
+                String placeName = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_TITLE));
+                textLocationName.setText(placeName);
+
+                String placeAddress = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_ADDRESS));
+                if (!TextUtils.isEmpty(placeAddress)) {
+                    textLocationAddress.setText(placeAddress);
+                } else {
+                    textLocationAddress.setVisibility(View.GONE);
+                }
+
+                String placeTelephone = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_TELEPHONE));
+                if (!TextUtils.isEmpty(placeTelephone)) {
+                    textLocationTelephone.setText(getString(R.string.detail_text_location_telephone) + placeTelephone);
+                } else {
+                    textLocationTelephone.setVisibility(View.GONE);
+                }
+
+                String placeEmail = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_EMAIL));
+                if (!TextUtils.isEmpty(placeEmail)) {
+                    textLocationEmail.setText(getString(R.string.detail_text_location_email) + placeEmail);
+                } else {
+                    textLocationEmail.setVisibility(View.GONE);
+                }
+
+                String placeAccessibility = placeCursor.getString(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_ACCESSIBILITY));
+                if (!TextUtils.isEmpty(placeAccessibility)) {
+                    textLocationAccessibility.setText(placeAccessibility);
+                } else {
+                    textLocationAccessibility.setVisibility(View.GONE);
+                }
+
+                Double latitude = placeCursor.getDouble(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LATITUDE));
+                Double longitude = placeCursor.getDouble(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE));
+                LatLng location = new LatLng(latitude, longitude);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                map.addMarker(new MarkerOptions().position(location).title(placeName)).showInfoWindow();
+
+                placeCursor.close();
+
+            } else {
+                cardLocation.setVisibility(View.GONE);
+            }
+
         }
     }
 }
