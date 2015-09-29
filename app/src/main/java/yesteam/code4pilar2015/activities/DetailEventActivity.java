@@ -117,6 +117,10 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void CreateShareIntent(int eventCode, String eventName, String placeCode) {
+        if (TextUtils.isEmpty(placeCode)) {
+            placeCode = "rec--1";
+        }
+
         shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Fiestas del Pilar 2015 - " + eventName +
