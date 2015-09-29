@@ -92,6 +92,7 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
 
             long date = cursor.getLong(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
             if (date > 0) {
+                holder.section.setVisibility(View.VISIBLE);
                 holder.section_title.setText(context.getString(R.string.date_until) + formatterSection.format(new Date(date)));
 
             } else {
@@ -104,7 +105,7 @@ public class EventsAdapter extends CursorRecyclerAdapter<EventsAdapter.ViewHolde
             cursor.moveToNext();
 
             long dateThis = cursor.getLong(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_END_DATE));
-            if ((datePrev > 0) && (dateThis > 0) && (datePrev != dateThis)) {
+            if (datePrev != dateThis) {
                 holder.section.setVisibility(View.VISIBLE);
                 holder.section_title.setText(context.getString(R.string.date_until) + formatterSection.format(new Date(dateThis)));
 
