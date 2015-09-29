@@ -61,7 +61,9 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingTop="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -72,9 +74,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginStart="15dp"
                         android:text="@string/detail_event_title_description"
                         android:textColor="@color/accent"
                         android:textSize="25sp" />
@@ -83,17 +85,17 @@
                         android:id="@+id/text_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp" />
 
                     <TextView
                         android:id="@+id/text_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
                         android:paddingTop="3dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -104,7 +106,9 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingTop="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -115,9 +119,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginStart="15dp"
                         android:text="@string/detail_event_title_date"
                         android:textColor="@color/accent"
                         android:textSize="25sp" />
@@ -126,17 +130,17 @@
                         android:id="@+id/text_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp" />
 
                     <TextView
                         android:id="@+id/text_hour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -146,7 +150,9 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingTop="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -157,9 +163,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginStart="15dp"
                         android:text="@string/detail_event_title_price"
                         android:textColor="@color/accent"
                         android:textSize="25sp" />
@@ -168,9 +174,9 @@
                         android:id="@+id/text_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -180,7 +186,9 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingTop="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -191,9 +199,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginStart="15dp"
                         android:text="@string/detail_event_title_location"
                         android:textColor="@color/accent"
                         android:textSize="25sp" />
@@ -210,43 +218,43 @@
                         android:id="@+id/text_location_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/text_location_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp" />
 
                     <TextView
                         android:id="@+id/text_location_telephone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
                         android:paddingTop="3dp" />
 
                     <TextView
                         android:id="@+id/text_location_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp" />
 
                     <TextView
                         android:id="@+id/text_location_accessibility"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp"
                         android:paddingTop="3dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -258,7 +266,9 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                app:contentPaddingBottom="10dp"
+                app:contentPaddingTop="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -269,9 +279,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginStart="15dp"
                         android:text="@string/detail_event_title_other"
                         android:textColor="@color/accent"
                         android:textSize="25sp" />
@@ -280,9 +290,9 @@
                         android:id="@+id/text_other_web"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-                        android:layout_marginStart="7dp" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="10dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
