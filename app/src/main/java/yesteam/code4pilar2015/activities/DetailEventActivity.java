@@ -1,5 +1,6 @@
 package yesteam.code4pilar2015.activities;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -262,11 +263,17 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
                     textLocationAccessibility.setVisibility(View.GONE);
                 }
 
-                Double latitude = placeCursor.getDouble(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LATITUDE));
-                Double longitude = placeCursor.getDouble(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE));
-                LatLng location = new LatLng(latitude, longitude);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
-                map.addMarker(new MarkerOptions().position(location).title(placeName)).showInfoWindow();
+                double latitude = placeCursor.getDouble(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LATITUDE));
+                double longitude = placeCursor.getDouble(placeCursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE));
+                if ((latitude != 0) && (longitude != 0)) {
+                    LatLng location = new LatLng(latitude, longitude);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    map.addMarker(new MarkerOptions().position(location).title(placeName)).showInfoWindow();
+
+                } else {
+                    Fragment mFragment = getFragmentManager().findFragmentById(R.id.map);
+                    getFragmentManager().beginTransaction().hide(mFragment).commit();
+                }
 
                 placeCursor.close();
 
