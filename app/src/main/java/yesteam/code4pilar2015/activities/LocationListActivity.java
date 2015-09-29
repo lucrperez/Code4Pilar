@@ -29,6 +29,9 @@ public class LocationListActivity extends AppCompatActivity implements EventsAda
 
         Intent thisIntent = getIntent();
         placeCode = thisIntent.getStringExtra("place-code");
+        String placeName = thisIntent.getStringExtra("place-name");
+
+        setTitle(placeName);
 
         txtEmpty = (TextView) findViewById(R.id.location_empty);
         EmptyRecyclerView mRecyclerView = (EmptyRecyclerView) findViewById(R.id.location_recycler_view);

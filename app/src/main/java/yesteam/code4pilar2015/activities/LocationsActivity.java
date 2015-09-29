@@ -35,7 +35,6 @@ public class LocationsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.locations_map)).getMap();
-        map.setMyLocationEnabled(true);
         LatLng ll = new LatLng(41.6532341,-0.8870108);
         float zoom = (float) 12.5;
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, zoom));
@@ -50,6 +49,7 @@ public class LocationsActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(LocationsActivity.this, LocationListActivity.class);
                         intent.putExtra("place-code", it.getCode());
+                        intent.putExtra("place-name", it.getName());
                         startActivity(intent);
 
                         break;
