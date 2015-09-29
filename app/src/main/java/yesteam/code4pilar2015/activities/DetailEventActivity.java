@@ -1,5 +1,6 @@
 package yesteam.code4pilar2015.activities;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,6 +11,9 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,6 +40,8 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
     private TextView textDescription, textCategory, textDate, textHour, textPrice, textLocationName, textLocationAddress, textLocationTelephone, textLocationEmail, textLocationAccessibility, textOtherWeb;
     private GoogleMap map;
     private CardView cardDescription, cardDate, cardPrice, cardLocation, cardOther;
+
+    private Intent shareIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,46 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
         map = googleMap;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_detail_event, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem actionShare = menu.findItem(R.id.action_share);
+
+        if (shareIntent == null) {
+            actionShare.setVisible(false);
+        } else {
+            actionShare.setVisible(true);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_chooser_title)));
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void CreateShareIntent(int eventCode, String eventName, String placeCode) {
+        shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Fiestas del Pilar 2015 - " + eventName +
+                " http://www.zaragoza.es/ciudad/fiestaspilar/detalle_Agenda?id=" + eventCode + "&lugar=" + placeCode.substring(placeCode.indexOf("-") + 1));
+        shareIntent.setType("text/plain");
+    }
+
     private class GetEventData extends AsyncTask<Integer, Void, Cursor[]> {
         private SimpleDateFormat formatter;
 
@@ -115,8 +161,16 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
             Cursor placeCursor = cursors[1];
             Cursor categoryCursor = cursors[2];
 
+            int eventCode;
+            String eventName, placeCode;
             if (eventCursor != null) {
                 eventCursor.moveToFirst();
+
+                eventCode = eventCursor.getInt(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_CODE));
+                eventName = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE));
+                placeCode = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_PLACE_CODE));
+                CreateShareIntent(eventCode, eventName, placeCode);
+                supportInvalidateOptionsMenu();
 
                 String title = eventCursor.getString(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE));
                 toolbarLayout.setTitle(title);
