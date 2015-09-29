@@ -1,0 +1,50 @@
+<resources>
+
+    <!-- # Default Strings # -->
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- # Activity and App Titles # -->
+
+    <string name="app_name">Fiestas del Pilar 2015</string>
+
+    <!-- # Image Descriptions # -->
+
+    <string name="row_event_image_description">imagen evento</string>
+    <string name="main_image_description_ofrenda">imagen ofrenda</string>
+    <string name="main_image_description_events">imagen eventos</string>
+    <string name="main_image_description_locations">imagen localizaciones</string>
+    <string name="main_image_description_categories">imagen categorias</string>
+    <string name="grid_category_image_description">imagen categoría</string>
+
+    <!-- # Buttons Text # -->
+
+    <string name="main_ofrenda">Ofrendas</string>
+    <string name="main_events">Eventos</string>
+    <string name="main_locations">Localizaciones</string>
+    <string name="main_categories">Categorías</string>
+    <string name="cancel">Cancelar</string>
+
+    <!-- # Text for TextViews or Empty Lists # -->
+
+    <string name="price_free">Gratis</string>
+    <string name="tab_all_title">Todos</string>
+    <string name="empty">Estamos cargando los datos de los eventos de las Fiestas del Pilar.\n\n
+        Esto sólo se realizará una vez y más adelante podrá desconectar su WiFi.</string>
+    <string name="date_until">"Hasta "</string>
+    <string name="detail_event_title_date">Fecha y horario</string>
+    <string name="detail_event_title_description">Descripción</string>
+    <string name="detail_event_title_location">Localización</string>
+    <string name="detail_event_title_price">Precio</string>
+    <string name="detail_event_title_other">Otros datos</string>
+    <string name="places_details_text">Ver eventos</string>
+    <string name="detail_text_location_email">"Email: "</string>
+    <string name="detail_text_location_telephone">"Teléfono: "</string>
+    <string name="detail_text_category">"Categoría del evento: "</string>
+    <string name="detail_text_hour">"Horario: "</string>
+    <string name="detail_text_other_web">"Web: "</string>
+    <string name="menu_action_share">Compartir evento</string>
+    <string name="share_chooser_title">Compartir evento con&#8230;</string>
+
+</resources>

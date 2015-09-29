@@ -11,40 +11,40 @@
 
     <!-- # Image Descriptions # -->
 
-    <string name="row_event_image_description">imagen evento</string>
-    <string name="main_image_description_ofrenda">imagen ofrenda</string>
-    <string name="main_image_description_events">imagen eventos</string>
-    <string name="main_image_description_locations">imagen localizaciones</string>
-    <string name="main_image_description_categories">imagen categories</string>
+    <string name="row_event_image_description">event image</string>
+    <string name="main_image_description_ofrenda">offering image</string>
+    <string name="main_image_description_events">events image</string>
+    <string name="main_image_description_locations">locations image</string>
+    <string name="main_image_description_categories">category image</string>
+    <string name="grid_category_image_description">category image</string>
 
     <!-- # Buttons Text # -->
 
-    <string name="main_ofrenda">Ofrendas</string>
-    <string name="main_events">Eventos</string>
-    <string name="main_locations">Localizaciones</string>
-    <string name="main_categories">Categorías</string>
-    <string name="cancel">Cancelar</string>
+    <string name="main_ofrenda">Offering</string>
+    <string name="main_events">Events</string>
+    <string name="main_locations">Locations</string>
+    <string name="main_categories">Categories</string>
+    <string name="cancel">Cancel</string>
 
     <!-- # Text for TextViews or Empty Lists # -->
 
     <string name="price_free">Free</string>
-    <string name="tab_all_title">Todos</string>
+    <string name="tab_all_title">All</string>
     <string name="empty">We\'re loading all the data related to the Fiestas del Pilar events.\n\n
     This is done only once and after this point you can disconnect WiFi if you wish.</string>
     <string name="date_until">"Until "</string>
-    <string name="grid_category_image_description">category image</string>
-    <string name="detail_event_title_date">Fecha y horario</string>
-    <string name="detail_event_title_description">Descripción</string>
-    <string name="detail_event_title_location">Localización</string>
-    <string name="detail_event_title_price">Precio</string>
-    <string name="detail_event_title_other">Otros datos</string>
-    <string name="places_details_text">Ver eventos</string>
+    <string name="detail_event_title_date">Date and time</string>
+    <string name="detail_event_title_description">Description</string>
+    <string name="detail_event_title_location">Location</string>
+    <string name="detail_event_title_price">Price</string>
+    <string name="detail_event_title_other">Other data</string>
+    <string name="places_details_text">See events</string>
     <string name="detail_text_location_email">"Email: "</string>
     <string name="detail_text_location_telephone">"Telephone: "</string>
     <string name="detail_text_category">"Category of event: "</string>
-    <string name="detail_text_hour">"Horario: "</string>
+    <string name="detail_text_hour">"Schedule: "</string>
     <string name="detail_text_other_web">"Web: "</string>
     <string name="menu_action_share">Share event</string>
-    <string name="share_chooser_title">Share event with...</string>
+    <string name="share_chooser_title">Share event with&#8230;</string>
 
 </resources>
