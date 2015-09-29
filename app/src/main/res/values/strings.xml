@@ -41,7 +41,7 @@
     <string name="places_details_text">See events</string>
     <string name="detail_text_location_email">"Email: "</string>
     <string name="detail_text_location_telephone">"Telephone: "</string>
-    <string name="detail_text_category">"Category of event: "</string>
+    <string name="detail_text_category">"Event\'s category: "</string>
     <string name="detail_text_hour">"Schedule: "</string>
     <string name="detail_text_other_web">"Web: "</string>
     <string name="menu_action_share">Share event</string>

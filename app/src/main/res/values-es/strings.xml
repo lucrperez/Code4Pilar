@@ -20,7 +20,7 @@
 
     <!-- # Buttons Text # -->
 
-    <string name="main_ofrenda">Ofrendas</string>
+    <string name="main_ofrenda">Ofrenda</string>
     <string name="main_events">Eventos</string>
     <string name="main_locations">Localizaciones</string>
     <string name="main_categories">Categorías</string>
@@ -33,7 +33,7 @@
     <string name="empty">Estamos cargando los datos de los eventos de las Fiestas del Pilar.\n\n
         Esto sólo se realizará una vez y más adelante podrá desconectar su WiFi.</string>
     <string name="date_until">"Hasta "</string>
-    <string name="detail_event_title_date">Fecha y horario</string>
+    <string name="detail_event_title_date">Fecha y hora</string>
     <string name="detail_event_title_description">Descripción</string>
     <string name="detail_event_title_location">Localización</string>
     <string name="detail_event_title_price">Precio</string>
