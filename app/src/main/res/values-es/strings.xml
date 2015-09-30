@@ -1,10 +1,5 @@
 <resources>
 
-    <!-- # Default Strings # -->
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
     <!-- # Activity and App Titles # -->
 
     <string name="app_name">Fiestas del Pilar 2015</string>
