@@ -20,6 +20,7 @@
         <activity android:name=".activities.EventsListActivity" />
         <activity android:name=".activities.CategoriesListActivity" />
         <activity android:name=".activities.DetailEventActivity" />
+        <activity android:name=".activities.OfrendasListActivity"/>
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name" >
@@ -35,10 +36,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.OfrendaListActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name=".activities.LocationsActivity"
             android:label="@string/app_name" >
         </activity>
@@ -52,6 +49,7 @@
             android:theme="@style/Theme.AppCompat.Dialog"
             android:label="@string/app_name" >
         </activity>
+
     </application>
 
 </manifest>

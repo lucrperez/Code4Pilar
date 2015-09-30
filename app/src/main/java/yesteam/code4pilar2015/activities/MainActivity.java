@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent int_ofrenda = new Intent(MainActivity.this, OfrendaListActivity.class);
+                Intent int_ofrenda = new Intent(MainActivity.this, OfrendasListActivity.class);
                 startActivity(int_ofrenda);
             }
         });
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Button Artists
+        //Button Categories
         ImageView img4 = (ImageView) findViewById(R.id.main_img_categories);
         img4.setOnClickListener(new View.OnClickListener() {
             @Override
