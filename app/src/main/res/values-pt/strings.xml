@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- # Activity and App Titles # -->
+
+    <string name="app_name">Fiestas del Pilar 2015</string>
+
+    <!-- # Image Descriptions # -->
+
+    <string name="row_event_image_description">imagem evento</string>
+    <string name="main_image_description_ofrenda">imagem oferenda</string>
+    <string name="main_image_description_events">imagem eventos</string>
+    <string name="main_image_description_locations">imagem localizações</string>
+    <string name="main_image_description_categories">imagem categorias</string>
+    <string name="grid_category_image_description">imagem categoria</string>
+
+    <!-- # Buttons Text # -->
+
+    <string name="main_ofrenda">Oferenda</string>
+    <string name="main_events">Eventos</string>
+    <string name="main_locations">Localizações</string>
+    <string name="main_categories">Categorias</string>
+    <string name="cancel">Cancelar</string>
+
+    <!-- # Text for TextViews or Empty Lists # -->
+
+    <string name="price_free">De graça</string>
+    <string name="tab_all_title">Todos</string>
+    <string name="empty">Estamos a carregar os dados dos eventos das Festas do Pilar.\n\n
+        Isto só se fará uma vez. Depois poderá desligar a sua WiFi.</string>
+    <string name="date_until">"Até "</string>
+    <string name="detail_event_title_date">Data e hora</string>
+    <string name="detail_event_title_description">Descrição</string>
+    <string name="detail_event_title_location">Localização</string>
+    <string name="detail_event_title_price">Preço</string>
+    <string name="detail_event_title_other">Outros dados</string>
+    <string name="places_details_text">Olhar eventos</string>
+    <string name="detail_text_location_email">"Correio eletrõnico: "</string>
+    <string name="detail_text_location_telephone">"Telefone: "</string>
+    <string name="detail_text_category">"Categoria do evento: "</string>
+    <string name="detail_text_hour">"Horário: "</string>
+    <string name="detail_text_other_web">"Web: "</string>
+    <string name="menu_action_share">Partilhar evento</string>
+    <string name="share_chooser_title">Partilhar evento com&#8230;</string>
+
+</resources>
