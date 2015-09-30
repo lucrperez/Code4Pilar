@@ -50,8 +50,8 @@ public class OfrendasListActivity extends AppCompatActivity implements LoaderMan
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(OfrendasListActivity.this, DatabaseProvider.OfrendaTable.URI, null,
-                null, null, DatabaseProvider.OfrendaTable.COLUMN_ACCESS + " ASC, " + DatabaseProvider.OfrendaTable.COLUMN_TIME + " ASC");
+        return new CursorLoader(OfrendasListActivity.this, DatabaseProvider.OfrendaTable.URI, null, null, null,
+                DatabaseProvider.OfrendaTable.COLUMN_ACCESS + " ASC, " + DatabaseProvider.OfrendaTable.COLUMN_TIME + " ASC, " + DatabaseProvider.OfrendaTable.COLUMN_NAME + " ASC");
     }
 
     @Override
