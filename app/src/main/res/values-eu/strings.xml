@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- # Activity and App Titles # -->
+
+    <string name="app_name">Fiestas del Pilar 2015</string>
+
+    <!-- # Image Descriptions # -->
+
+    <string name="row_event_image_description">irudi ekitaldia</string>
+    <string name="main_image_description_ofrenda">irudi eskaintza</string>
+    <string name="main_image_description_events">irudi ekitaldiak</string>
+    <string name="main_image_description_locations">irudi kokapena</string>
+    <string name="main_image_description_categories">irudi kategoriak</string>
+    <string name="grid_category_image_description">irudi kategoria</string>
+
+    <!-- # Buttons Text # -->
+
+    <string name="main_ofrenda">Eskaintza</string>
+    <string name="main_events">Ekitaldiak</string>
+    <string name="main_locations">Kokapenak</string>
+    <string name="main_categories">Kategoriak</string>
+    <string name="cancel">Bertan behera</string>
+
+    <!-- # Text for TextViews or Empty Lists # -->
+
+    <string name="price_free">Doan</string>
+    <string name="tab_all_title">Guztiak</string>
+    <string name="empty">Fiestas del Pilar gertakari datuetan kargatzen ari gara.\n\n
+        Hau baino ezin da behin egin eta gero, zure WiFi deskonektatzeko dezakezu.</string>
+    <string name="date_until">"Ra "</string>
+    <string name="detail_event_title_date">Data eta ordua</string>
+    <string name="detail_event_title_description">Deskripzio</string>
+    <string name="detail_event_title_location">Kokapena</string>
+    <string name="detail_event_title_price">Prezioa</string>
+    <string name="detail_event_title_other">Beste datuak</string>
+    <string name="places_details_text">Ikuspegi ekitaldiak</string>
+    <string name="detail_text_location_email">"Email: "</string>
+    <string name="detail_text_location_telephone">"Telefono zenbakia: "</string>
+    <string name="detail_text_category">"Gertaera Kategoria: "</string>
+    <string name="detail_text_hour">"Ordutegia: "</string>
+    <string name="detail_text_other_web">"Web: "</string>
+    <string name="menu_action_share">Oharra gertaera</string>
+    <string name="share_chooser_title">Oharra gertaera&#8230;</string>
+
+</resources>
