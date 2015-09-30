@@ -9,18 +9,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.HashMap;
 
 import yesteam.code4pilar2015.R;
 
 public class OfrendaLocationsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap map;
+    private static final LatLng Zaragoza = new LatLng(41.652788, -0.880048);
 
-    private static final LatLng Zaragoza = new LatLng(41.6536923, -0.8797517);
     private static final LatLng PlazaAragon = new LatLng(41.647658, -0.885351);
     private static final LatLng Canfranc = new LatLng(41.6487291, -0.8856754);
     private static final LatLng Albareda = new LatLng(41.6491042, -0.8845738);
@@ -33,8 +32,6 @@ public class OfrendaLocationsActivity extends AppCompatActivity implements OnMap
     private static final LatLng SanVicentePaul = new LatLng(41.6550119, -0.8736276);
     private static final float zoom = 15.0F;
 
-    private HashMap<String, String[]> eventMarkerMap;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,54 +42,78 @@ public class OfrendaLocationsActivity extends AppCompatActivity implements OnMap
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.locations_ofrenda_map);
         mapFragment.getMapAsync(this);
-
-        eventMarkerMap = new HashMap<>();
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(Zaragoza, zoom));
-
-        map.addMarker(new MarkerOptions().position(PlazaAragon)
+    public void onMapReady(final GoogleMap googleMap) {
+        googleMap.addMarker(new MarkerOptions().position(PlazaAragon)
                 .title("Plaza Aragón")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb1)));
 
-        map.addMarker(new MarkerOptions().position(Canfranc)
+        googleMap.addMarker(new MarkerOptions().position(Canfranc)
                 .title("Calle Canfranc")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb2)));
 
-        map.addMarker(new MarkerOptions().position(Albareda)
+        googleMap.addMarker(new MarkerOptions().position(Albareda)
                 .title("Calle Albareda")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb3)));
 
-        map.addMarker(new MarkerOptions().position(CasaJimenez)
+        googleMap.addMarker(new MarkerOptions().position(CasaJimenez)
                 .title("Calle Casa Jiménez")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb4)));
 
-        map.addMarker(new MarkerOptions().position(CincoMarzo)
+        googleMap.addMarker(new MarkerOptions().position(CincoMarzo)
                 .title("Calle Cindco de Marzo")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb5)));
 
-        map.addMarker(new MarkerOptions().position(Diputacion)
+        googleMap.addMarker(new MarkerOptions().position(Diputacion)
                 .title("Diputación Provincial")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb6)));
 
-        map.addMarker(new MarkerOptions().position(PlazaSas)
+        googleMap.addMarker(new MarkerOptions().position(PlazaSas)
                 .title("Plaza Sas")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb7)));
 
-        map.addMarker(new MarkerOptions().position(PuentePiedra)
+        googleMap.addMarker(new MarkerOptions().position(PuentePiedra)
                 .title("Puente de Piedra")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb8)));
 
-        map.addMarker(new MarkerOptions().position(StaEngracia)
+        googleMap.addMarker(new MarkerOptions().position(StaEngracia)
                 .title("Plaza Santa Engracia")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb9)));
 
-        map.addMarker(new MarkerOptions().position(SanVicentePaul)
+        googleMap.addMarker(new MarkerOptions().position(SanVicentePaul)
                 .title("Calle San Vicente de Paul")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb10)));
+
+        final LatLngBounds accesos = LatLngBounds.builder()
+                .include(Albareda)
+                .include(Canfranc)
+                .include(CasaJimenez)
+                .include(CincoMarzo)
+                .include(Diputacion)
+                .include(PlazaAragon)
+                .include(PlazaSas)
+                .include(PuentePiedra)
+                .include(SanVicentePaul)
+                .include(StaEngracia)
+                .build();
+
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(accesos, 100));
+            }
+        });
+
+        googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                if (cameraPosition.zoom > 2) {
+                    CameraPosition newCameraPosition = new CameraPosition.Builder(cameraPosition).bearing(35).build();
+                    googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+                }
+            }
+        });
     }
 }
