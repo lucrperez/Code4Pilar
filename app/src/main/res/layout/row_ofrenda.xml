@@ -1,56 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="70dp"
     android:orientation="horizontal">
 
     <FrameLayout
         android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:minHeight="70dp">
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
         <View
-            android:id="@+id/pruebas_ofrenda_top_stroke"
+            android:id="@+id/ofrenda_top_stroke"
             android:layout_width="15dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_gravity="top|center_horizontal"
             android:background="@color/accent" />
 
         <View
-            android:id="@+id/pruebas_ofrenda_bottom_stroke"
+            android:id="@+id/ofrenda_bottom_stroke"
             android:layout_width="15dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_gravity="bottom|center_horizontal"
             android:background="@color/accent" />
 
         <TextView
-            android:id="@+id/pruebas_ofrenda_access"
+            android:id="@+id/ofrenda_access"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/background_circle_red"
             android:gravity="center"
-            android:text="1"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
     </FrameLayout>
 
     <TextView
-        android:id="@+id/pruebas_ofrenda_hour"
+        android:id="@+id/ofrenda_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/pruebas_ofrenda_name"
+        android:id="@+id/ofrenda_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginEnd="5dp"
         android:layout_marginLeft="7dp"
+        android:layout_marginRight="5dp"
         android:layout_marginStart="7dp"
         android:layout_weight="1.0"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
         android:textSize="20sp" />
 
 </LinearLayout>

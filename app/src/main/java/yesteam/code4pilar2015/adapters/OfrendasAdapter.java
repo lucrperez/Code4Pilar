@@ -20,12 +20,12 @@ public class OfrendasAdapter extends CursorRecyclerAdapter<OfrendasAdapter.ViewH
         public ViewHolder(View rowView) {
             super(rowView);
 
-            name = (TextView) rowView.findViewById(R.id.pruebas_ofrenda_name);
-            hour = (TextView) rowView.findViewById(R.id.pruebas_ofrenda_hour);
-            access = (TextView) rowView.findViewById(R.id.pruebas_ofrenda_access);
+            name = (TextView) rowView.findViewById(R.id.ofrenda_name);
+            hour = (TextView) rowView.findViewById(R.id.ofrenda_hour);
+            access = (TextView) rowView.findViewById(R.id.ofrenda_access);
 
-            topStroke = rowView.findViewById(R.id.pruebas_ofrenda_top_stroke);
-            bottomStroke = rowView.findViewById(R.id.pruebas_ofrenda_bottom_stroke);
+            topStroke = rowView.findViewById(R.id.ofrenda_top_stroke);
+            bottomStroke = rowView.findViewById(R.id.ofrenda_bottom_stroke);
         }
     }
 
