@@ -4,7 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/header_toolbar" />
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/header_toolbar" />
+
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
