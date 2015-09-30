@@ -43,7 +43,4 @@
     <string name="menu_action_share">Share event</string>
     <string name="share_chooser_title">Share event with&#8230;</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
 </resources>

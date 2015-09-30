@@ -1,0 +1,46 @@
+<resources>
+
+    <!-- # Activity and App Titles # -->
+
+    <string name="app_name">Fiestas del Pilar 2015</string>
+
+    <!-- # Image Descriptions # -->
+
+    <string name="row_event_image_description">Photo de l\'événement</string>
+    <string name="main_image_description_ofrenda">Photo de l\'offrande</string>
+    <string name="main_image_description_events">Photo des événements</string>
+    <string name="main_image_description_locations">Photo des lieux</string>
+    <string name="main_image_description_categories">Photo des catégories</string>
+    <string name="grid_category_image_description">Photo de la catégorie</string>
+
+    <!-- # Buttons Text # -->
+
+    <string name="main_ofrenda">Offrande</string>
+    <string name="main_events">Evénement</string>
+    <string name="main_locations">Lieux</string>
+    <string name="main_categories">Catégories</string>
+    <string name="cancel">Annuler</string>
+    <string name="menu_map">Map</string>
+
+    <!-- # Text for TextViews or Empty Lists # -->
+
+    <string name="price_free">Gratuit</string>
+    <string name="tab_all_title">Tout</string>
+    <string name="empty">Nous sommes en train de charger les données relatives aux événements des Fiestas del Pilar.\n\n
+    Ceci est effectué lors de la première utilisation, ensuite vous pouvez vous déconnecter du Wifi si vous le souhaitez.</string>
+    <string name="date_until">"Jusqu\'à "</string>
+    <string name="detail_event_title_date">Date et heure</string>
+    <string name="detail_event_title_description">Description</string>
+    <string name="detail_event_title_location">Lieu</string>
+    <string name="detail_event_title_price">Prix</string>
+    <string name="detail_event_title_other">Autres données</string>
+    <string name="places_details_text">Voir les événements</string>
+    <string name="detail_text_location_email">"Email: "</string>
+    <string name="detail_text_location_telephone">"Téléphone: "</string>
+    <string name="detail_text_category">"Catégorie d\'événement: "</string>
+    <string name="detail_text_hour">"Horaire: "</string>
+    <string name="detail_text_other_web">"Web: "</string>
+    <string name="menu_action_share">Partager cet événement</string>
+    <string name="share_chooser_title">Partager cet événement avec&#8230;</string>
+
+</resources>
