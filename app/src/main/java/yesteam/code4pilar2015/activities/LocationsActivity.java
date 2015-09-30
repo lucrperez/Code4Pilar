@@ -9,22 +9,25 @@ import android.support.v7.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import yesteam.code4pilar2015.R;
-import yesteam.code4pilar2015.items.LocationItem;
 import yesteam.code4pilar2015.provider.DatabaseProvider;
 
-public class LocationsActivity extends AppCompatActivity {
+public class LocationsActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private static final LatLng Zaragoza = new LatLng(41.6532341, -0.8870108);
+    private static final Float zoom = 12.5F;
 
     private GoogleMap map;
-    ArrayList<LocationItem> items;
+    private HashMap<String, String[]> eventMarkerMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,131 +37,62 @@ public class LocationsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.locations_map)).getMap();
-        LatLng ll = new LatLng(41.6532341,-0.8870108);
-        float zoom = (float) 12.5;
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, zoom));
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
+        eventMarkerMap = new HashMap<>();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(Zaragoza, zoom));
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                for (LocationItem it : items) {
-                    LatLng ll = new LatLng(it.getLat(), it.getLng());
-                    if (marker.getPosition().latitude == ll.latitude && marker.getPosition().longitude == ll.longitude) {
+                String[] placeData = eventMarkerMap.get(marker.getId());
 
-
-                        Intent intent = new Intent(LocationsActivity.this, LocationListActivity.class);
-                        intent.putExtra("place-code", it.getCode());
-                        intent.putExtra("place-name", it.getName());
-                        startActivity(intent);
-
-                        break;
-
-
-                        /*String[] projection = new String[]{DatabaseProvider.EventsTable.COLUMN_TITLE, DatabaseProvider.EventsTable.COLUMN_CODE};
-                        String where = DatabaseProvider.EventsTable.COLUMN_PLACE_CODE + "='" + it.getCode() + "'";
-                        final Cursor cursor = getContentResolver().query(DatabaseProvider.EventsTable.URI, projection, where, null, null);
-
-                        ArrayList<String> items = new ArrayList<String>();
-
-                        if (cursor.moveToFirst()) {
-                            items.add(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE)));
-                        }
-                        while (cursor.moveToNext()) {
-                            items.add(cursor.getString(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_TITLE)));
-                        }
-
-                        CharSequence[] cs = items.toArray(new CharSequence[items.size()]);
-
-                        final AlertDialog.Builder builder = new AlertDialog.Builder(LocationsActivity.this);
-
-                        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        });
-
-                        builder.setTitle(R.string.main_events)
-                                .setItems(cs, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        cursor.moveToPosition(which);
-                                        Intent intent = new Intent(getApplicationContext(), DetailEventActivity.class);
-                                        intent.putExtra("event-code", cursor.getInt(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_CODE)));
-                                        startActivity(intent);
-                                    }
-                                });
-
-                        builder.create();
-                        builder.show();*/
-                    }
-                }
+                Intent intent = new Intent(LocationsActivity.this, LocationListActivity.class);
+                intent.putExtra("place-code", placeData[0]);
+                intent.putExtra("place-name", placeData[1]);
+                startActivity(intent);
             }
         });
 
-            new
+        new LoadLocations().execute();
+    }
 
-            LoadLocations()
-
-            .
-
-            execute();
-        }
-
-
-        private class LoadLocations extends AsyncTask<Void, Void, ArrayList<LocationItem>> {
+    private class LoadLocations extends AsyncTask<Void, Void, Cursor> {
 
         @Override
-        protected ArrayList<LocationItem> doInBackground(Void... params) {
-            String[] projection = new String[] { DatabaseProvider.PlacesTable.COLUMN_ID,
-                    DatabaseProvider.PlacesTable.COLUMN_CODE,
-                    DatabaseProvider.PlacesTable.COLUMN_LATITUDE,
-                    DatabaseProvider.PlacesTable.COLUMN_LONGITUDE,
-                    DatabaseProvider.PlacesTable.COLUMN_TITLE};
-            Cursor cursor = getContentResolver().query(DatabaseProvider.PlacesTable.URI, projection, null, null, null);
+        protected Cursor doInBackground(Void... params) {
+            return getContentResolver().query(DatabaseProvider.PlacesTable.URI, null, null, null, null);
+        }
 
-            items = new ArrayList<>();
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            super.onPostExecute(cursor);
 
-            LocationItem loc = new LocationItem();
-
-            if (cursor.moveToFirst()) {
-                loc.set_id(cursor.getInt(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_ID)));
-                loc.setCode(cursor.getString(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_CODE)));
-                loc.setName(cursor.getString(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_TITLE)));
-                loc.setLat(cursor.getDouble(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LATITUDE)));
-                loc.setLng(cursor.getDouble(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE)));
-                items.add(loc);
-            }
             while (cursor.moveToNext()) {
-                loc = new LocationItem();
-                loc.set_id(cursor.getInt(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_ID)));
-                loc.setCode(cursor.getString(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_CODE)));
-                loc.setName(cursor.getString(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_TITLE)));
-                loc.setLat(cursor.getDouble(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LATITUDE)));
-                loc.setLng(cursor.getDouble(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE)));
-                items.add(loc);
-            }
-            cursor.close();
-            return items;
-        }
+                String name = cursor.getString(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_TITLE));
+                String code = cursor.getString(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_CODE));
+                double latitude = cursor.getDouble(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LATITUDE));
+                double longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE));
 
-        @Override
-        protected void onPostExecute(ArrayList<LocationItem> locationItems) {
-            super.onPostExecute(locationItems);
-
-            if (locationItems != null) {
-                for (LocationItem it : locationItems) {
-                    LatLng ll = new LatLng(it.getLat(), it.getLng());
-                    map.addMarker(new MarkerOptions()
-                            .position(ll)
+                if ((latitude != 0) && (longitude != 0)) {
+                    LatLng position = new LatLng(latitude, longitude);
+                    Marker marker = map.addMarker(new MarkerOptions()
+                            .position(position)
                             .draggable(false)
                             .visible(true)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                            .title(it.getName())
-                            .snippet(getResources().getString(R.string.places_details_text)));
+                            .title(name)
+                            .snippet(getString(R.string.places_details_text)));
+
+                    eventMarkerMap.put(marker.getId(), new String[]{code, name});
                 }
             }
-
         }
     }
 }
