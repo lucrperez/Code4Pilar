@@ -21,6 +21,7 @@
     <string name="main_locations">Kokapenak</string>
     <string name="main_categories">Kategoriak</string>
     <string name="cancel">Bertan behera</string>
+    <string name="menu_map">Mapa</string>
 
     <!-- # Text for TextViews or Empty Lists # -->
 

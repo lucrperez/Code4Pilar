@@ -20,6 +20,7 @@
     <string name="main_locations">Locations</string>
     <string name="main_categories">Categories</string>
     <string name="cancel">Cancel</string>
+    <string name="menu_map">Map</string>
 
     <!-- # Text for TextViews or Empty Lists # -->
 
@@ -41,5 +42,8 @@
     <string name="detail_text_other_web">"Web: "</string>
     <string name="menu_action_share">Share event</string>
     <string name="share_chooser_title">Share event with&#8230;</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

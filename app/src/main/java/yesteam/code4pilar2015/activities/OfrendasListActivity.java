@@ -147,6 +147,19 @@ public class OfrendasListActivity extends AppCompatActivity implements LoaderMan
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_map) {
+            Intent intent = new Intent(OfrendasListActivity.this, OfrendaLocationsActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return super.onPrepareOptionsMenu(menu);
     }
