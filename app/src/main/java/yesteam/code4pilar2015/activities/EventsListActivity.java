@@ -10,6 +10,7 @@ import android.gesture.Prediction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -17,9 +18,13 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
@@ -33,6 +38,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
     private EventsAdapter adapter;
     private TabLayout tabLayout;
 
+    private MaterialSearchView searchView;
+
     private GestureLibrary gestureLibrary;
 
     private static final String GESTURE_RIGHT = "right";
@@ -45,6 +52,28 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Bundle extras = new Bundle();
+                extras.putString("name", query);
+                extras.putInt("category", (int) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
+                getSupportLoaderManager().restartLoader(0, extras, EventsListActivity.this);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Bundle extras = new Bundle();
+                extras.putString("name", newText);
+                extras.putInt("category", (int) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag());
+                getSupportLoaderManager().restartLoader(0, extras, EventsListActivity.this);
+                return false;
+            }
+        });
+        searchView.setVoiceSearch(true);
 
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_all_title).setTag(-1));
@@ -82,6 +111,16 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_events_list, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -94,10 +133,35 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
     }
 
     @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         getSupportLoaderManager().destroyLoader(0);
 
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && matches.size() > 0) {
+                String searchWrd = matches.get(0);
+                if (!TextUtils.isEmpty(searchWrd)) {
+                    searchView.setQuery(searchWrd, false);
+                }
+            }
+
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -106,10 +170,19 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         String[] whereArgs = null;
 
         int code = args.getInt("category", -1);
+        String name = args.getString("name", "");
 
-        if (code >= 0) {
+        if ((code >= 0) && (!TextUtils.isEmpty(name))) {
+            where = DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE + "=? AND " + DatabaseProvider.EventsTable.COLUMN_TITLE + " like ?";
+            whereArgs = new String[]{String.valueOf(code), "%" + name + "%"};
+
+        } else if (code >= 0) {
             where = DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE + "=?";
             whereArgs = new String[]{String.valueOf(code)};
+
+        } else if (!TextUtils.isEmpty(name)) {
+            where = DatabaseProvider.EventsTable.COLUMN_TITLE + " like ?";
+            whereArgs = new String[]{"%" + name + "%"};
         }
 
         return new CursorLoader(EventsListActivity.this, DatabaseProvider.EventsTable.URI, null,
