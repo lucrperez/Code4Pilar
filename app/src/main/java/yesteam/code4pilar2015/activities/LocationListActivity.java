@@ -8,6 +8,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import yesteam.code4pilar2015.R;
@@ -15,7 +17,7 @@ import yesteam.code4pilar2015.adapters.EventsAdapter;
 import yesteam.code4pilar2015.helpers.EmptyRecyclerView;
 import yesteam.code4pilar2015.provider.DatabaseProvider;
 
-public class LocationListActivity extends AppCompatActivity implements EventsAdapter.OnItemClickEventListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class LocationListActivity extends AppCompatActivity implements EventsAdapter.OnItemClickEventListener, LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
 
     String placeCode;
 
@@ -40,6 +42,9 @@ public class LocationListActivity extends AppCompatActivity implements EventsAda
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        Button buttonClose = (Button) findViewById(R.id.button_close);
+        buttonClose.setOnClickListener(this);
 
         adapter = new EventsAdapter(LocationListActivity.this, null, this);
         mRecyclerView.setAdapter(adapter);
@@ -79,5 +84,14 @@ public class LocationListActivity extends AppCompatActivity implements EventsAda
         Intent iEvent = new Intent(LocationListActivity.this, DetailEventActivity.class);
         iEvent.putExtra("event-code", cursor.getInt(cursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_CODE)));
         startActivity(iEvent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_close:
+                LocationListActivity.this.finish();
+                break;
+        }
     }
 }

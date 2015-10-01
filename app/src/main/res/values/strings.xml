@@ -42,5 +42,6 @@
     <string name="detail_text_other_web">"Web: "</string>
     <string name="menu_action_share">Share event</string>
     <string name="share_chooser_title">Share event with&#8230;</string>
+    <string name="button_close">Close</string>
 
 </resources>

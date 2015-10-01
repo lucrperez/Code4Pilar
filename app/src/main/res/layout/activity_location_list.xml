@@ -7,7 +7,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
 
         <yesteam.code4pilar2015.helpers.EmptyRecyclerView
             android:id="@+id/location_recycler_view"
@@ -28,4 +29,9 @@
 
     </FrameLayout>
 
+    <Button
+        android:id="@+id/button_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_close" />
 </LinearLayout>
