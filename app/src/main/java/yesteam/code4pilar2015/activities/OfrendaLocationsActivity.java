@@ -3,6 +3,7 @@ package yesteam.code4pilar2015.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,6 +43,23 @@ public class OfrendaLocationsActivity extends AppCompatActivity implements OnMap
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.locations_ofrenda_map);
         mapFragment.getMapAsync(this);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                OfrendaLocationsActivity.this.finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

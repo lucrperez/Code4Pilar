@@ -77,6 +77,11 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
 
         int code = getIntent().getIntExtra("event-code", 0);
         new GetEventData().execute(code);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -107,6 +112,10 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                DetailEventActivity.this.finish();
+                return true;
+
             case R.id.action_share:
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.share_chooser_title)));
                 return true;

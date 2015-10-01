@@ -85,6 +85,28 @@ public class OfrendasListActivity extends AppCompatActivity implements LoaderMan
         mRecyclerView.setAdapter(adapter);
 
         getSupportLoaderManager().restartLoader(0, null, this);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                OfrendasListActivity.this.finish();
+                return true;
+
+            case R.id.action_map:
+                Intent intent = new Intent(OfrendasListActivity.this, OfrendaLocationsActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -144,23 +166,5 @@ public class OfrendasListActivity extends AppCompatActivity implements LoaderMan
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_map) {
-            Intent intent = new Intent(OfrendasListActivity.this, OfrendaLocationsActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
     }
 }
