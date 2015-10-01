@@ -20,7 +20,8 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        new Handler().postDelayed(new Runnable() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
@@ -33,6 +34,8 @@ public class SplashActivity extends Activity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                handler.removeCallbacksAndMessages(null);
+
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -40,47 +43,6 @@ public class SplashActivity extends Activity {
         });
 
         launchUpdate();
-
-        /*final TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-
-                // Start the next activity
-                Intent intent = new Intent();
-                intent.setClass(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-
-                // Close the activity so the user won't able to go back this
-                // activity pressing Back button
-                finish();
-            }
-
-            @Override
-            public boolean cancel() {
-                Boolean bool = super.cancel();
-
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-
-                // Close the activity so the user won't able to go back this
-                // activity pressing Back button
-                finish();
-
-                return bool;
-            }
-        };
-
-        // Simulate a long loading process on application startup.
-        Timer timer = new Timer();
-        timer.schedule(task, SPLASH_SCREEN_DELAY);
-
-        ImageView img = (ImageView) findViewById(R.id.splash_img);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                task.cancel();
-            }
-        });*/
     }
 
     private void launchUpdate() {
