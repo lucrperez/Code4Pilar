@@ -22,6 +22,7 @@
     <string name="main_categories">Categorias</string>
     <string name="cancel">Cancelar</string>
     <string name="menu_map">Mapa</string>
+    <string name="go_back">Voltar</string>
 
     <!-- # Text for TextViews or Empty Lists # -->
 

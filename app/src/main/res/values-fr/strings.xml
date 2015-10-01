@@ -21,6 +21,7 @@
     <string name="main_categories">Catégories</string>
     <string name="cancel">Annuler</string>
     <string name="menu_map">Map</string>
+    <string name="go_back">Retourner</string>
 
     <!-- # Text for TextViews or Empty Lists # -->
 
