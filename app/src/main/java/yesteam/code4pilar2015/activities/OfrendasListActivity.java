@@ -56,16 +56,6 @@ public class OfrendasListActivity extends AppCompatActivity implements LoaderMan
             }
         });
 
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-            }
-        });
-
         searchView.setVoiceSearch(true);
 
         /* END Search Engine */
@@ -126,6 +116,15 @@ public class OfrendasListActivity extends AppCompatActivity implements LoaderMan
     }
 
     @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         getSupportLoaderManager().destroyLoader(0);
 
@@ -135,16 +134,18 @@ public class OfrendasListActivity extends AppCompatActivity implements LoaderMan
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String where = null;
-        String name = null;
+        String[] whereArgs = null;
 
+        String name = null;
         if (args != null) {
             name = args.getString("name");
         }
-        if (null != name && !"".equals(name)) {
-            where = DatabaseProvider.OfrendaTable.COLUMN_NAME + " like '%" + name + "%'";
+        if (!TextUtils.isEmpty(name)) {
+            where = DatabaseProvider.OfrendaTable.COLUMN_NAME + " like ?";
+            whereArgs = new String[]{"%" + name + "%"};
         }
 
-        return new CursorLoader(OfrendasListActivity.this, DatabaseProvider.OfrendaTable.URI, null, where, null,
+        return new CursorLoader(OfrendasListActivity.this, DatabaseProvider.OfrendaTable.URI, null, where, whereArgs,
                 DatabaseProvider.OfrendaTable.COLUMN_ACCESS + " ASC, " + DatabaseProvider.OfrendaTable.COLUMN_TIME + " ASC, " + DatabaseProvider.OfrendaTable.COLUMN_NAME + " ASC");
     }
 
