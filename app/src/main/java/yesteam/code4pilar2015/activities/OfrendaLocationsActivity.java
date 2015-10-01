@@ -63,7 +63,7 @@ public class OfrendaLocationsActivity extends AppCompatActivity implements OnMap
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb4)));
 
         googleMap.addMarker(new MarkerOptions().position(CincoMarzo)
-                .title("Calle Cindco de Marzo")
+                .title("Calle Cinco de Marzo")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iconb5)));
 
         googleMap.addMarker(new MarkerOptions().position(Diputacion)
