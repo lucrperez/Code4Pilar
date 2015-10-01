@@ -2,6 +2,11 @@ package yesteam.code4pilar2015.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.gesture.Gesture;
+import android.gesture.GestureLibraries;
+import android.gesture.GestureLibrary;
+import android.gesture.GestureOverlayView;
+import android.gesture.Prediction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,15 +20,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import yesteam.code4pilar2015.R;
 import yesteam.code4pilar2015.adapters.EventsAdapter;
 import yesteam.code4pilar2015.helpers.EmptyRecyclerView;
 import yesteam.code4pilar2015.provider.DatabaseProvider;
 
-public class EventsListActivity extends AppCompatActivity implements EventsAdapter.OnItemClickEventListener, LoaderManager.LoaderCallbacks<Cursor>, TabLayout.OnTabSelectedListener {
+public class EventsListActivity extends AppCompatActivity implements EventsAdapter.OnItemClickEventListener, LoaderManager.LoaderCallbacks<Cursor>, TabLayout.OnTabSelectedListener, GestureOverlayView.OnGesturePerformedListener {
 
     private EventsAdapter adapter;
     private TabLayout tabLayout;
+
+    private GestureLibrary gestureLibrary;
+
+    private static final String GESTURE_RIGHT = "right";
+    private static final String GESTURE_LEFT = "left";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +66,13 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         Bundle extras = new Bundle();
         extras.putInt("category", -1);
         getSupportLoaderManager().restartLoader(0, extras, this);
+
+        GestureOverlayView gestureOverlayView = (GestureOverlayView) findViewById(R.id.gestures);
+
+        gestureLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
+        gestureLibrary.load();
+
+        gestureOverlayView.addOnGesturePerformedListener(this);
     }
 
     @Override
@@ -110,6 +129,27 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
+    }
+
+    @Override
+    public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
+        ArrayList<Prediction> predictions = gestureLibrary.recognize(gesture);
+        if (predictions.size() > 0) {
+            Prediction prediction = predictions.get(0);
+            if (prediction.score > 1.0) {
+                if (GESTURE_RIGHT.equalsIgnoreCase(prediction.name)) {
+                    int selectedTab = tabLayout.getSelectedTabPosition();
+                    if (selectedTab > 0) {
+                        tabLayout.getTabAt(selectedTab - 1).select();
+                    }
+                } else if (GESTURE_LEFT.equalsIgnoreCase(prediction.name)) {
+                    int selectedTab = tabLayout.getSelectedTabPosition();
+                    if (selectedTab < tabLayout.getTabCount() - 1) {
+                        tabLayout.getTabAt(selectedTab + 1).select();
+                    }
+                }
+            }
+        }
     }
 
     private class CreateTabs extends AsyncTask<Void, Void, Cursor> {

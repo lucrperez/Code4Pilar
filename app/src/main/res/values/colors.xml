@@ -16,6 +16,8 @@
     <color name="black">#000000</color>
     <color name="light_gray">#DDDDDD</color>
     <color name="gray">#BBBBBB</color>
+
     <color name="translucent">#77000000</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

@@ -13,26 +13,36 @@
         android:layout_height="wrap_content"
         app:tabMode="scrollable" />
 
-    <FrameLayout
+    <android.gesture.GestureOverlayView
+        android:id="@+id/gestures"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:eventsInterceptionEnabled="true"
+        android:gestureColor="@color/accent"
+        android:gestureStrokeWidth="20.0"
+        android:uncertainGestureColor="@color/transparent">
 
-        <yesteam.code4pilar2015.helpers.EmptyRecyclerView
-            android:id="@+id/recycler_view"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/light_gray"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:maxWidth="300dp"
-            android:text="@string/empty"
-            android:textSize="20sp" />
+            <yesteam.code4pilar2015.helpers.EmptyRecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/light_gray"
+                android:scrollbars="vertical" />
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:maxWidth="300dp"
+                android:text="@string/empty"
+                android:textSize="20sp" />
+
+        </FrameLayout>
+    </android.gesture.GestureOverlayView>
 </LinearLayout>
