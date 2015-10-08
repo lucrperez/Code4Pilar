@@ -77,6 +77,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
 
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_all_title).setTag(-1));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_childhood_title).setTag(-2));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_youth_title).setTag(-3));
         tabLayout.setOnTabSelectedListener(this);
 
         TextView txtEmpty = (TextView) findViewById(R.id.empty);
@@ -169,16 +171,24 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         String where = null;
         String[] whereArgs = null;
 
-        int code = args.getInt("category", -1);
+        int category = args.getInt("category", -1);
         String name = args.getString("name", "");
 
-        if ((code >= 0) && (!TextUtils.isEmpty(name))) {
+        if ((category >= 0) && (!TextUtils.isEmpty(name))) {
             where = DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE + "=? AND " + DatabaseProvider.EventsTable.COLUMN_TITLE + " like ?";
-            whereArgs = new String[]{String.valueOf(code), "%" + name + "%"};
+            whereArgs = new String[]{String.valueOf(category), "%" + name + "%"};
 
-        } else if (code >= 0) {
+        } else if ((category < -1) && (!TextUtils.isEmpty(name))) {
+            where = DatabaseProvider.EventsTable.COLUMN_POPULATION_TYPE + "=? AND " + DatabaseProvider.EventsTable.COLUMN_TITLE + " like ?";
+            whereArgs = new String[]{String.valueOf(Math.abs(category + 1)), "%" + name + "%"};
+
+        } else if (category >= 0) {
             where = DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE + "=?";
-            whereArgs = new String[]{String.valueOf(code)};
+            whereArgs = new String[]{String.valueOf(category)};
+
+        } else if (category < -1) {
+            where = DatabaseProvider.EventsTable.COLUMN_POPULATION_TYPE + "=?";
+            whereArgs = new String[]{String.valueOf(Math.abs(category + 1))};
 
         } else if (!TextUtils.isEmpty(name)) {
             where = DatabaseProvider.EventsTable.COLUMN_TITLE + " like ?";
@@ -272,7 +282,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
             }
             cursor.close();
 
-            if (tabLayout.getTabCount() > 1) {
+            if (tabLayout.getTabCount() > 3) {
                 tabLayout.getTabAt(pos).select();
 
                 final int finalPos = pos;

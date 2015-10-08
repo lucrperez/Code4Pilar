@@ -43,5 +43,7 @@
     <string name="detail_text_other_web">"Web: "</string>
     <string name="menu_action_share">Compartir evento</string>
     <string name="share_chooser_title">Compartir evento con&#8230;</string>
+    <string name="tab_childhood_title">Infantil</string>
+    <string name="tab_youth_title">Juvenil</string>
 
 </resources>
