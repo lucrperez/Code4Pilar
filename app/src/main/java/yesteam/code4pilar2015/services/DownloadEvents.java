@@ -118,6 +118,11 @@ public class DownloadEvents extends Service {
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_PRICE, stripHtml(event.getString("precioEntrada")).trim());
                     }
 
+                    if (!event.isNull("poblacion")) {
+                        JSONObject poblacion = event.getJSONArray("poblacion").getJSONObject(0);
+                        eventValues.put(DatabaseProvider.EventsTable.COLUMN_POPULATION_TYPE, poblacion.getString("id"));
+                    }
+
                     if (!event.isNull("temas")) {
                         JSONObject tema = event.getJSONArray("temas").getJSONObject(0);
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE, tema.getString("id"));
