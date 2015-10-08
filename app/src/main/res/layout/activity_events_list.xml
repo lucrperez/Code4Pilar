@@ -30,8 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:eventsInterceptionEnabled="true"
-        android:gestureColor="@color/accent"
-        android:gestureStrokeWidth="20.0"
+        android:gestureColor="@color/transparent"
         android:uncertainGestureColor="@color/transparent">
 
         <FrameLayout
