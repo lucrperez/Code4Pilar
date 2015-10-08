@@ -3,9 +3,11 @@ package yesteam.code4pilar2015.services;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.Html;
 
@@ -62,15 +64,24 @@ public class DownloadEvents extends Service {
 
             try {
                 JSONObject jsonData = new JSONObject(strJson);
-                int total = jsonData.getInt("totalCount");
 
-                Cursor countCursor = getContentResolver().query(DatabaseProvider.EventsTable.URI, new String[]{"count(*) AS count"}, null, null, null);
-                countCursor.moveToFirst();
-                int count = countCursor.getInt(0);
-                countCursor.close();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DownloadEvents.this);
+                if (prefs.getInt("db_version", 0) == 2) {
+                    int total = jsonData.getInt("totalCount");
 
-                if (total == count) {
-                    return null;
+                    Cursor countCursor = getContentResolver().query(DatabaseProvider.EventsTable.URI, new String[]{"count(*) AS count"}, null, null, null);
+                    countCursor.moveToFirst();
+                    int count = countCursor.getInt(0);
+                    countCursor.close();
+
+                    if (total == count) {
+                        return null;
+                    }
+
+                } else {
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("db_version", 2);
+                    editor.apply();
                 }
 
                 JSONArray events = jsonData.getJSONArray("result");
