@@ -44,6 +44,8 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
 
     private Intent shareIntent = null;
 
+    private int eventCode = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +77,7 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        int code = getIntent().getIntExtra("event-code", 0);
-        new GetEventData().execute(code);
+        eventCode = getIntent().getIntExtra("event-code", 0);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -87,6 +88,7 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        new GetEventData().execute(eventCode);
     }
 
     @Override
