@@ -1,10 +1,10 @@
 package yesteam.code4pilar2015.services;
 
+import android.app.AlarmManager;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -64,28 +65,34 @@ public class DownloadEvents extends Service {
 
             try {
                 JSONObject jsonData = new JSONObject(strJson);
+                int total = jsonData.getInt("totalCount");
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DownloadEvents.this);
-                if (prefs.getInt("db_version", 0) == 2) {
-                    int total = jsonData.getInt("totalCount");
+                boolean newData = !(total == prefs.getInt("total_data", 0));
+                boolean newDbVersion = prefs.getInt("db_version", 0) < 2;
+                boolean dataTooOld = (System.currentTimeMillis() - prefs.getLong("last_update", 0)) > (3 * AlarmManager.INTERVAL_HOUR);
 
-                    Cursor countCursor = getContentResolver().query(DatabaseProvider.EventsTable.URI, new String[]{"count(*) AS count"}, null, null, null);
-                    countCursor.moveToFirst();
-                    int count = countCursor.getInt(0);
-                    countCursor.close();
-
-                    if (total == count) {
-                        return null;
-                    }
+                if (!(newDbVersion || dataTooOld || newData)) {
+                    return null;
 
                 } else {
                     SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("total_data", total);
                     editor.putInt("db_version", 2);
+                    editor.putLong("last_update", System.currentTimeMillis());
                     editor.apply();
+
+                    getContentResolver().delete(DatabaseProvider.EventsTable.URI, null, null);
+                    getContentResolver().delete(DatabaseProvider.CategoriesTable.URI, null, null);
+                    getContentResolver().delete(DatabaseProvider.PlacesTable.URI, null, null);
                 }
 
                 JSONArray events = jsonData.getJSONArray("result");
                 SimpleDateFormat formatterIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+
+                ArrayList<ContentValues> arrayEvents = new ArrayList<>();
+                ArrayList<ContentValues> arrayCategories = new ArrayList<>();
+                ArrayList<ContentValues> arrayPlaces = new ArrayList<>();
 
                 for (int i = 0; i < events.length(); i++) {
                     JSONObject event = events.getJSONObject(i);
@@ -127,14 +134,16 @@ public class DownloadEvents extends Service {
                         JSONObject tema = event.getJSONArray("temas").getJSONObject(0);
                         eventValues.put(DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE, tema.getString("id"));
 
-                        ContentValues values = new ContentValues();
-                        values.put(DatabaseProvider.CategoriesTable.COLUMN_CODE, tema.getInt("id"));
-                        values.put(DatabaseProvider.CategoriesTable.COLUMN_TITLE, tema.getString("title"));
+                        ContentValues categoryValues = new ContentValues();
+                        categoryValues.put(DatabaseProvider.CategoriesTable.COLUMN_CODE, tema.getInt("id"));
+                        categoryValues.put(DatabaseProvider.CategoriesTable.COLUMN_TITLE, tema.getString("title"));
                         if (!tema.isNull("image")) {
-                            values.put(DatabaseProvider.CategoriesTable.COLUMN_IMAGE, tema.getString("image"));
+                            categoryValues.put(DatabaseProvider.CategoriesTable.COLUMN_IMAGE, tema.getString("image"));
                         }
 
-                        getContentResolver().insert(DatabaseProvider.CategoriesTable.URI, values);
+                        if (!arrayCategories.contains(categoryValues)) {
+                            arrayCategories.add(categoryValues);
+                        }
                     }
 
                     if (!event.isNull("subEvent")) {
@@ -176,11 +185,19 @@ public class DownloadEvents extends Service {
                             placeValues.put(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE, coordinates.getString(0));
                         }
 
-                        getContentResolver().insert(DatabaseProvider.PlacesTable.URI, placeValues);
+                        if (!arrayPlaces.contains(placeValues)) {
+                            arrayPlaces.add(placeValues);
+                        }
                     }
 
-                    getContentResolver().insert(DatabaseProvider.EventsTable.URI, eventValues);
+                    if (!arrayEvents.contains(eventValues)) {
+                        arrayEvents.add(eventValues);
+                    }
                 }
+
+                getContentResolver().bulkInsert(DatabaseProvider.EventsTable.URI, arrayEvents.toArray(new ContentValues[arrayEvents.size()]));
+                getContentResolver().bulkInsert(DatabaseProvider.CategoriesTable.URI, arrayCategories.toArray(new ContentValues[arrayCategories.size()]));
+                getContentResolver().bulkInsert(DatabaseProvider.PlacesTable.URI, arrayPlaces.toArray(new ContentValues[arrayPlaces.size()]));
 
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
