@@ -3,8 +3,11 @@ package yesteam.code4pilar2015.services;
 import android.app.AlarmManager;
 import android.app.Service;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -20,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +48,13 @@ public class DownloadEvents extends Service {
     }
 
     private class AsyncDownload extends AsyncTask<Void, Void, Void> {
+
+        private static final String PREF_TAG_TOTAL_EVENTS = "total-events";
+        private static final String PREF_TAG_DB_VERSION = "db-version";
+        private static final String PREF_TAG_LAST_UPDATE = "last-update";
+
+        private static final int DB_VERSION = 2;
+        private static final long UPDATE_INTERVAL = 3 * AlarmManager.INTERVAL_HOUR;
 
         private static final String URL_EVENTS = "http://www.zaragoza.es/api/recurso/cultura-ocio/evento-zaragoza.json?srsname=wgs84&sort=startDate%20asc&rows=1000&q=programa==Fiestas%20del%20Pilar";
 
@@ -68,18 +80,21 @@ public class DownloadEvents extends Service {
                 int total = jsonData.getInt("totalCount");
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(DownloadEvents.this);
-                boolean newData = !(total == prefs.getInt("total_data", 0));
-                boolean newDbVersion = prefs.getInt("db_version", 0) < 2;
-                boolean dataTooOld = (System.currentTimeMillis() - prefs.getLong("last_update", 0)) > (3 * AlarmManager.INTERVAL_HOUR);
+                boolean newData = !(total == prefs.getInt(PREF_TAG_TOTAL_EVENTS, 0));
+                boolean newDbVersion = prefs.getInt(PREF_TAG_DB_VERSION, 0) < DB_VERSION;
+                boolean dataTooOld = (System.currentTimeMillis() - prefs.getLong(PREF_TAG_LAST_UPDATE, 0)) > UPDATE_INTERVAL;
 
                 if (!(newDbVersion || dataTooOld || newData)) {
                     return null;
 
+                } else if (!hasInternetAccess()) {
+                    return null;
+
                 } else {
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("total_data", total);
-                    editor.putInt("db_version", 2);
-                    editor.putLong("last_update", System.currentTimeMillis());
+                    editor.putInt(PREF_TAG_TOTAL_EVENTS, total);
+                    editor.putInt(PREF_TAG_DB_VERSION, DB_VERSION);
+                    editor.putLong(PREF_TAG_LAST_UPDATE, System.currentTimeMillis());
                     editor.apply();
 
                     getContentResolver().delete(DatabaseProvider.EventsTable.URI, null, null);
@@ -213,6 +228,29 @@ public class DownloadEvents extends Service {
 
         public String stripHtml(String html) {
             return Html.fromHtml(html).toString();
+        }
+
+        private boolean isNetworkAvailable() {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+
+        private boolean hasInternetAccess() {
+            if (isNetworkAvailable()) {
+                try {
+                    HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com/generate_204").openConnection());
+                    urlc.setRequestProperty("User-Agent", "Android");
+                    urlc.setRequestProperty("Connection", "close");
+                    urlc.setConnectTimeout(1500);
+                    urlc.connect();
+                    return (urlc.getResponseCode() == 204 && urlc.getContentLength() == 0);
+
+                } catch (IOException ignored) {
+
+                }
+            }
+            return false;
         }
     }
 }
