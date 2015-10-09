@@ -90,17 +90,12 @@ public class DownloadEvents extends Service {
                 } else if (!hasInternetAccess()) {
                     return null;
 
-                } else {
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt(PREF_TAG_TOTAL_EVENTS, total);
-                    editor.putInt(PREF_TAG_DB_VERSION, DB_VERSION);
-                    editor.putLong(PREF_TAG_LAST_UPDATE, System.currentTimeMillis());
-                    editor.apply();
-
-                    getContentResolver().delete(DatabaseProvider.EventsTable.URI, null, null);
-                    getContentResolver().delete(DatabaseProvider.CategoriesTable.URI, null, null);
-                    getContentResolver().delete(DatabaseProvider.PlacesTable.URI, null, null);
                 }
+
+                getContentResolver().delete(DatabaseProvider.EventsTable.URI, null, null);
+                getContentResolver().delete(DatabaseProvider.CategoriesTable.URI, null, null);
+                getContentResolver().delete(DatabaseProvider.PlacesTable.URI, null, null);
+
 
                 JSONArray events = jsonData.getJSONArray("result");
                 SimpleDateFormat formatterIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
@@ -213,6 +208,14 @@ public class DownloadEvents extends Service {
                 getContentResolver().bulkInsert(DatabaseProvider.EventsTable.URI, arrayEvents.toArray(new ContentValues[arrayEvents.size()]));
                 getContentResolver().bulkInsert(DatabaseProvider.CategoriesTable.URI, arrayCategories.toArray(new ContentValues[arrayCategories.size()]));
                 getContentResolver().bulkInsert(DatabaseProvider.PlacesTable.URI, arrayPlaces.toArray(new ContentValues[arrayPlaces.size()]));
+
+
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt(PREF_TAG_TOTAL_EVENTS, total);
+                editor.putInt(PREF_TAG_DB_VERSION, DB_VERSION);
+                editor.putLong(PREF_TAG_LAST_UPDATE, System.currentTimeMillis());
+                editor.apply();
+
 
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
