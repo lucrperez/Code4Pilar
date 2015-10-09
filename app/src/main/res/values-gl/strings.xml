@@ -28,6 +28,8 @@
 
     <string name="price_free">De balde</string>
     <string name="tab_all_title">Todos</string>
+    <string name="tab_childhood_title">Infantil</string>
+    <string name="tab_youth_title">Xuvenil</string>
     <string name="empty">Estamos carregando os datos dos eventos das Festas do Pilar.\n\n
         Isto só se fará unha vez e máis adiante poderá desconectar a súa WiFi.</string>
     <string name="date_until">"Até "</string>
@@ -44,7 +46,5 @@
     <string name="detail_text_other_web">"Web: "</string>
     <string name="menu_action_share">Compartir evento</string>
     <string name="share_chooser_title">Compartir evento con&#8230;</string>
-    <string name="tab_childhood_title">Infantil</string>
-    <string name="tab_youth_title">Xuvenil</string>
 
 </resources>
