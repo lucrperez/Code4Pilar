@@ -54,6 +54,7 @@ public class DatabaseProvider extends SQLiteContentProviderImpl {
         public static final String COLUMN_WEB = "web";
         public static final String COLUMN_IMAGE = "image";
         public static final String COLUMN_POPULATION_TYPE = "population_type";
+        public static final String COLUMN_FAVORITE = "favorite";
 
         public static final Uri URI = Uri.parse(AUTHORITY).buildUpon().appendPath(TABLE_NAME).build();
     }
