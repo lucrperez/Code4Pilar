@@ -53,7 +53,7 @@ public class DownloadEvents extends Service {
         private static final String PREF_TAG_DB_VERSION = "db-version";
         private static final String PREF_TAG_LAST_UPDATE = "last-update";
 
-        private static final int DB_VERSION = 2;
+        private static final int DB_VERSION = 3;
         private static final long UPDATE_INTERVAL = 3 * AlarmManager.INTERVAL_HOUR;
 
         private static final String URL_EVENTS = "http://www.zaragoza.es/api/recurso/cultura-ocio/evento-zaragoza.json?srsname=wgs84&sort=startDate%20asc&rows=1000&q=programa==Fiestas%20del%20Pilar";
