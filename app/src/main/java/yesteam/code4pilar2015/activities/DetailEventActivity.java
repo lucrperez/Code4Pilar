@@ -1,12 +1,15 @@
 package yesteam.code4pilar2015.activities;
 
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -34,13 +37,14 @@ import yesteam.code4pilar2015.R;
 import yesteam.code4pilar2015.helpers.SquareImageView;
 import yesteam.code4pilar2015.provider.DatabaseProvider;
 
-public class DetailEventActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DetailEventActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
     private CollapsingToolbarLayout toolbarLayout;
     private SquareImageView image;
     private TextView textDescription, textCategory, textDate, textHour, textPrice, textLocationName, textLocationAddress, textLocationTelephone, textLocationEmail, textLocationAccessibility, textOtherWeb;
     private GoogleMap map;
     private CardView cardDescription, cardDate, cardPrice, cardLocation, cardOther;
+    private FloatingActionButton fabFavorite;
 
     private Intent shareIntent = null;
 
@@ -73,6 +77,9 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
         textLocationEmail = (TextView) findViewById(R.id.text_location_email);
         textLocationAccessibility = (TextView) findViewById(R.id.text_location_accessibility);
         textOtherWeb = (TextView) findViewById(R.id.text_other_web);
+
+        fabFavorite = (FloatingActionButton) findViewById(R.id.fab_favorite);
+        fabFavorite.setOnClickListener(this);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -137,6 +144,15 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Fiestas del Pilar 2015 - " + eventName +
                 " http://www.zaragoza.es/ciudad/fiestaspilar/detalle_Agenda?id=" + eventCode + "&lugar=" + placeCode.substring(placeCode.indexOf("-") + 1));
         shareIntent.setType("text/plain");
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_favorite:
+                new UpdateFavoriteStatus().execute(eventCode);
+                break;
+        }
     }
 
     private class GetEventData extends AsyncTask<Integer, Void, Cursor[]> {
@@ -230,6 +246,13 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
                     cardOther.setVisibility(View.GONE);
                 }
 
+                int favorite = eventCursor.getInt(eventCursor.getColumnIndex(DatabaseProvider.EventsTable.COLUMN_FAVORITE));
+                if (favorite == 0) {
+                    fabFavorite.setImageResource(R.drawable.ic_favorite);
+                } else {
+                    fabFavorite.setImageResource(R.drawable.ic_favorite_fill);
+                }
+
                 eventCursor.close();
             }
 
@@ -296,6 +319,36 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
                 cardLocation.setVisibility(View.GONE);
             }
 
+        }
+    }
+
+    private class UpdateFavoriteStatus extends AsyncTask<Integer, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            Cursor eventCursor = getContentResolver().query(DatabaseProvider.EventsTable.URI, null, DatabaseProvider.EventsTable.COLUMN_CODE + "=?", new String[]{String.valueOf(params[0])}, null);
+            eventCursor.moveToFirst();
+
+            ContentValues values = new ContentValues();
+            DatabaseUtils.cursorRowToContentValues(eventCursor, values);
+
+            int newFavorite = (values.getAsInteger(DatabaseProvider.EventsTable.COLUMN_FAVORITE) + 1) % 2;
+            values.put(DatabaseProvider.EventsTable.COLUMN_FAVORITE, newFavorite);
+
+            getContentResolver().insert(DatabaseProvider.EventsTable.URI, values);
+
+            return newFavorite;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+            if (result == 0) {
+                fabFavorite.setImageResource(R.drawable.ic_favorite);
+            } else {
+                fabFavorite.setImageResource(R.drawable.ic_favorite_fill);
+            }
         }
     }
 }
