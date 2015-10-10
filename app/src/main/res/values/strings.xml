@@ -46,4 +46,8 @@
     <string name="menu_action_share">Share event</string>
     <string name="share_chooser_title">Share event with&#8230;</string>
 
+    <string name="tab_favorites_title">Favorites</string>
+    <string name="empty_favorites">You don\'t have any favorite event.\n\n
+    Mark an event as favorite to show it here.</string>
+
 </resources>

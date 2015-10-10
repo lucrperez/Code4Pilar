@@ -38,6 +38,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
     private EventsAdapter adapter;
     private TabLayout tabLayout;
 
+    private TextView txtEmpty;
+
     private MaterialSearchView searchView;
 
     private GestureLibrary gestureLibrary;
@@ -76,12 +78,13 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         searchView.setVoiceSearch(true);
 
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_favorites_title).setTag(-99));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_all_title).setTag(-1));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_childhood_title).setTag(-2));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_youth_title).setTag(-3));
         tabLayout.setOnTabSelectedListener(this);
 
-        TextView txtEmpty = (TextView) findViewById(R.id.empty);
+        txtEmpty = (TextView) findViewById(R.id.empty);
         EmptyRecyclerView mRecyclerView = (EmptyRecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setEmptyView(txtEmpty);
@@ -174,9 +177,14 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         int category = args.getInt("category", -1);
         String name = args.getString("name", "");
 
+
         if ((category >= 0) && (!TextUtils.isEmpty(name))) {
             where = DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE + "=? AND " + DatabaseProvider.EventsTable.COLUMN_TITLE + " like ?";
             whereArgs = new String[]{String.valueOf(category), "%" + name + "%"};
+
+        } else if ((category == -99) && (!TextUtils.isEmpty(name))) {
+            where = DatabaseProvider.EventsTable.COLUMN_FAVORITE + "=? AND " + DatabaseProvider.EventsTable.COLUMN_TITLE + " like ?";
+            whereArgs = new String[]{"1", "%" + name + "%"};
 
         } else if ((category < -1) && (!TextUtils.isEmpty(name))) {
             where = DatabaseProvider.EventsTable.COLUMN_POPULATION_TYPE + "=? AND " + DatabaseProvider.EventsTable.COLUMN_TITLE + " like ?";
@@ -185,6 +193,10 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         } else if (category >= 0) {
             where = DatabaseProvider.EventsTable.COLUMN_CATEGORY_CODE + "=?";
             whereArgs = new String[]{String.valueOf(category)};
+
+        } else if (category == -99) {
+            where = DatabaseProvider.EventsTable.COLUMN_FAVORITE + "=?";
+            whereArgs = new String[]{"1"};
 
         } else if (category < -1) {
             where = DatabaseProvider.EventsTable.COLUMN_POPULATION_TYPE + "=?";
@@ -222,6 +234,12 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         Bundle extras = new Bundle();
         extras.putInt("category", (int) tab.getTag());
         getSupportLoaderManager().restartLoader(0, extras, this);
+
+        if (tab.getPosition() == 0) {
+            txtEmpty.setText(R.string.empty_favorites);
+        } else {
+            txtEmpty.setText(R.string.empty);
+        }
     }
 
     @Override
@@ -270,7 +288,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
         protected void onPostExecute(Cursor cursor) {
             super.onPostExecute(cursor);
 
-            int pos = 0;
+            int pos = 1;
             while (cursor.moveToNext()) {
                 String title = cursor.getString(cursor.getColumnIndex(DatabaseProvider.CategoriesTable.COLUMN_TITLE));
                 int code = cursor.getInt(cursor.getColumnIndex(DatabaseProvider.CategoriesTable.COLUMN_CODE));
@@ -282,7 +300,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
             }
             cursor.close();
 
-            if (tabLayout.getTabCount() > 3) {
+            if (tabLayout.getTabCount() > 4) {
                 tabLayout.getTabAt(pos).select();
 
                 final int finalPos = pos;
