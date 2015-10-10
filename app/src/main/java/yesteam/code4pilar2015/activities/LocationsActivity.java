@@ -1,5 +1,6 @@
 package yesteam.code4pilar2015.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -12,14 +13,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.HashMap;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 import yesteam.code4pilar2015.R;
+import yesteam.code4pilar2015.items.ClusterMarker;
 import yesteam.code4pilar2015.provider.DatabaseProvider;
 
 public class LocationsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -27,8 +27,7 @@ public class LocationsActivity extends AppCompatActivity implements OnMapReadyCa
     private static final LatLng Zaragoza = new LatLng(41.6532341, -0.8870108);
     private static final Float zoom = 12.5F;
 
-    private GoogleMap map;
-    private HashMap<String, String[]> eventMarkerMap;
+    private ClusterManager<ClusterMarker> mClusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +39,6 @@ public class LocationsActivity extends AppCompatActivity implements OnMapReadyCa
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        eventMarkerMap = new HashMap<>();
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -63,22 +60,41 @@ public class LocationsActivity extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Zaragoza, zoom));
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(Zaragoza, zoom));
-        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mClusterManager = new ClusterManager<>(this, googleMap);
+        googleMap.setOnCameraChangeListener(mClusterManager);
+        googleMap.setOnMarkerClickListener(mClusterManager);
+        googleMap.setOnInfoWindowClickListener(mClusterManager);
+
+        googleMap.setInfoWindowAdapter(mClusterManager.getMarkerManager());
+
+        final MyClusterRenderer clusterRenderer = new MyClusterRenderer(this, googleMap, mClusterManager);
+        mClusterManager.setRenderer(clusterRenderer);
+        clusterRenderer.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterMarker>() {
             @Override
-            public void onInfoWindowClick(Marker marker) {
-                String[] placeData = eventMarkerMap.get(marker.getId());
-
+            public void onClusterItemInfoWindowClick(ClusterMarker clusterMarker) {
                 Intent intent = new Intent(LocationsActivity.this, LocationListActivity.class);
-                intent.putExtra("place-code", placeData[0]);
-                intent.putExtra("place-name", placeData[1]);
+                intent.putExtra("place-code", clusterMarker.getCode());
+                intent.putExtra("place-name", clusterMarker.getName());
                 startActivity(intent);
             }
         });
 
         new LoadLocations().execute();
+    }
+
+    private class MyClusterRenderer extends DefaultClusterRenderer<ClusterMarker> {
+
+        public MyClusterRenderer(Context context, GoogleMap map, ClusterManager<ClusterMarker> clusterManager) {
+            super(context, map, clusterManager);
+        }
+
+        @Override
+        protected void onBeforeClusterItemRendered(ClusterMarker item, MarkerOptions markerOptions) {
+            markerOptions.title(item.getName());
+            markerOptions.snippet(getString(R.string.places_details_text));
+        }
     }
 
     private class LoadLocations extends AsyncTask<Void, Void, Cursor> {
@@ -99,16 +115,8 @@ public class LocationsActivity extends AppCompatActivity implements OnMapReadyCa
                 double longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseProvider.PlacesTable.COLUMN_LONGITUDE));
 
                 if ((latitude != 0) && (longitude != 0)) {
-                    LatLng position = new LatLng(latitude, longitude);
-                    Marker marker = map.addMarker(new MarkerOptions()
-                            .position(position)
-                            .draggable(false)
-                            .visible(true)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                            .title(name)
-                            .snippet(getString(R.string.places_details_text)));
-
-                    eventMarkerMap.put(marker.getId(), new String[]{code, name});
+                    ClusterMarker marker = new ClusterMarker(latitude, longitude, name, code);
+                    mClusterManager.addItem(marker);
                 }
             }
         }
