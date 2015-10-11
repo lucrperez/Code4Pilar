@@ -29,8 +29,11 @@
     <string name="tab_all_title">All</string>
     <string name="tab_childhood_title">Childhood</string>
     <string name="tab_youth_title">Youth</string>
+    <string name="tab_favorites_title">Favorites</string>
     <string name="empty">We\'re loading all the data related to the Fiestas del Pilar events.\n\n
     This is done only once and after this point you can disconnect WiFi if you wish.</string>
+    <string name="empty_favorites">You don\'t have any favorite event.\n\n
+    Mark an event as favorite to show it here.</string>
     <string name="date_until">"Until "</string>
     <string name="detail_event_title_date">Date and time</string>
     <string name="detail_event_title_description">Description</string>
@@ -45,9 +48,5 @@
     <string name="detail_text_other_web">"Web: "</string>
     <string name="menu_action_share">Share event</string>
     <string name="share_chooser_title">Share event with&#8230;</string>
-
-    <string name="tab_favorites_title">Favorites</string>
-    <string name="empty_favorites">You don\'t have any favorite event.\n\n
-    Mark an event as favorite to show it here.</string>
 
 </resources>

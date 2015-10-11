@@ -30,8 +30,11 @@
     <string name="tab_all_title">Todos</string>
     <string name="tab_childhood_title">Infantil</string>
     <string name="tab_youth_title">Xuvenil</string>
+    <string name="tab_favorites_title">Favoritos</string>
     <string name="empty">Estamos carregando os datos dos eventos das Festas do Pilar.\n\n
         Isto só se fará unha vez e máis adiante poderá desconectar a súa WiFi.</string>
+    <string name="empty_favorites">Non tés ningún evento favorito.\n\n
+        Marca un evento coma favorito para mostralo eiquí.</string>
     <string name="date_until">"Até "</string>
     <string name="detail_event_title_date">Data e hora</string>
     <string name="detail_event_title_description">Descrición</string>
