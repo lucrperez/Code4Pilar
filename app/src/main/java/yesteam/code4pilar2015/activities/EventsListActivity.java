@@ -295,7 +295,7 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
                 tabLayout.addTab(tabLayout.newTab().setText(title).setTag(code));
 
                 if (code == categorySelected) {
-                    pos = cursor.getPosition() + 1;
+                    pos = cursor.getPosition() + 4;
                 }
             }
             cursor.close();
@@ -308,7 +308,8 @@ public class EventsListActivity extends AppCompatActivity implements EventsAdapt
                     @Override
                     public void run() {
                         int left = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(finalPos).getLeft();
-                        tabLayout.scrollTo(left, 0);
+                        int offset = tabLayout.getWidth() / 4;
+                        tabLayout.scrollTo(left - offset, 0);
                     }
                 }, 100);
 
